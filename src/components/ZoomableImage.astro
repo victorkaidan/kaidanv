@@ -1,0 +1,36 @@
+---
+// Explicit figure+caption wrapper for a single image inside a case study or
+// article. Use this when you want a caption underneath the image; for plain
+// images, a regular <img> tag in MDX is enough — the page-level zoom script
+// in projects/[id].astro and blog/[id].astro makes every image in the prose
+// container click-to-zoom by default.
+interface Props {
+    src: string;
+    alt: string;
+    caption?: string;
+}
+const { src, alt, caption } = Astro.props;
+---
+
+<figure class="zoomable-figure">
+    <img src={src} alt={alt} loading="lazy" />
+    {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+    .zoomable-figure {
+        margin: 2rem 0;
+    }
+    .zoomable-figure img {
+        max-width: 100%;
+        height: auto;
+        cursor: zoom-in;
+        border-radius: 4px;
+    }
+    .zoomable-figure figcaption {
+        font-size: 0.85rem;
+        text-align: center;
+        margin-top: 0.5rem;
+        opacity: 0.7;
+    }
+</style>

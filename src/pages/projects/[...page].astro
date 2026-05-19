@@ -1,0 +1,28 @@
+---
+import type { GetStaticPathsOptions, Page } from 'astro';
+import { type CollectionEntry, getCollection } from 'astro:content';
+import Pagination from '../../components/Pagination.astro';
+import ProjectPreview from '../../components/ProjectPreview.astro';
+import siteConfig from '../../data/site-config';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { sortItemsByDateDesc } from '../../utils/data-utils';
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+    const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(sortItemsByDateDesc);
+    return paginate(projects, { pageSize: siteConfig.projectsPerPage || 6 });
+}
+
+type Props = { page: Page<CollectionEntry<'projects'>> };
+
+const { page } = Astro.props;
+const portfolio = page.data;
+---
+
+<BaseLayout title="Portfolio" description="Explore a diverse portfolio showcasing my passion and expertise" showHeader={false}>
+    <h1 class="mb-4 font-serif text-2xl leading-tight sm:mb-6 sm:text-4xl">Projects</h1>
+    <div class="prose sm:prose-lg mb-12 max-w-none sm:mb-16">
+        <p>Below are my previous works related to hands-on side of my experience. Recent managerial case studies can be presented on request.</p>
+    </div>
+    {portfolio.map((project) => <ProjectPreview project={project} class="mb-10 sm:mb-12" />)}
+    <Pagination page={page} class="my-16 sm:my-24" />
+</BaseLayout>

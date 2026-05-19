@@ -1,0 +1,97 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import ProjectPreview from '../../components/ProjectPreview.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { sortItemsByDateDesc } from '../../utils/data-utils';
+
+export async function getStaticPaths() {
+    const allProjects = (await getCollection('projects')).sort(sortItemsByDateDesc);
+    // Drafts get built (direct URLs still work) but never appear in prev/next
+    // navigation, which only traverses publicly listed projects.
+    const navProjects = allProjects.filter(({ data }) => !data.draft);
+    return allProjects.map((project) => {
+        const navIndex = navProjects.findIndex((p) => p.id === project.id);
+        const isInNav = navIndex >= 0;
+        return {
+            params: { id: project.id },
+            props: {
+                project,
+                prevProject: isInNav && navIndex + 1 !== navProjects.length ? navProjects[navIndex + 1] : null,
+                nextProject: isInNav && navIndex !== 0 ? navProjects[navIndex - 1] : null
+            }
+        };
+    });
+}
+
+type Props = {
+    project: CollectionEntry<'projects'>;
+    prevProject: CollectionEntry<'projects'>;
+    nextProject: CollectionEntry<'projects'>;
+};
+
+const { project, prevProject, nextProject } = Astro.props;
+const { title, description, seo, draft } = project.data;
+const { Content } = await render(project);
+---
+
+<BaseLayout
+    title={seo?.title ?? title}
+    description={seo?.description ?? description}
+    image={seo?.image}
+    pageType="article"
+    showHeader={false}
+    noindex={draft}
+>
+    <article class="mb-16 sm:mb-24">
+        <header class="mb-8">
+            <h1 class="font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{title}</h1>
+        </header>
+        <div class="prose sm:prose-lg max-w-none">
+            <Content />
+        </div>
+    </article>
+    {
+        (prevProject || nextProject) && (
+            <div class="my-16 sm:my-24">
+                <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">View Next</h2>
+                {nextProject && <ProjectPreview project={nextProject} class="mb-10 sm:mb-12" headingLevel="h3" />}
+                {prevProject && <ProjectPreview project={prevProject} class="mb-10 sm:mb-12" headingLevel="h3" />}
+            </div>
+        )
+    }
+</BaseLayout>
+
+<script>
+    import mediumZoom from 'medium-zoom';
+
+    // Make every image inside the case-study prose container click-to-zoom.
+    // The module is bundled and runs once on initial page load. To handle SPA
+    // navigation via Astro's ClientRouter (view-transitions), we re-init on
+    // `astro:after-swap` (fires the moment the new DOM is in place) — earlier
+    // than `astro:page-load`, which waits for transitions + assets to settle.
+    //
+    // The instance is tracked on `window` so each re-init detaches the prior
+    // listeners cleanly. Without that, stacked instances cause the first
+    // click to open a ghost copy and break subsequent clicks.
+    type ZoomInstance = ReturnType<typeof mediumZoom>;
+    const w = window as Window & {
+        __mediumZoom?: ZoomInstance | null;
+        __mediumZoomListenersInstalled?: boolean;
+    };
+
+    function setupZoom() {
+        w.__mediumZoom?.detach();
+        w.__mediumZoom = mediumZoom('.prose img', {
+            margin: 24,
+            background: 'rgba(20, 20, 20, 0.6)',
+            scrollOffset: 40
+        });
+    }
+
+    if (!w.__mediumZoomListenersInstalled) {
+        document.addEventListener('astro:after-swap', setupZoom);
+        document.addEventListener('astro:page-load', setupZoom);
+        w.__mediumZoomListenersInstalled = true;
+    }
+    setupZoom();
+</script>

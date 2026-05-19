@@ -1,0 +1,36 @@
+---
+import { type CollectionEntry } from 'astro:content';
+import ArrowRight from '../assets/icons/arrow-right.svg';
+
+type Props = { project: CollectionEntry<'projects'>; class?: string; headingLevel?: 'h2' | 'h3' };
+
+const { project, class: className, headingLevel = 'h2' } = Astro.props;
+const { title, description, seo } = project.data;
+const cover = seo?.image;
+const coverSrc = typeof cover?.src === 'string' ? cover.src : null;
+const TitleTag = headingLevel;
+---
+
+<a class:list={['group flex items-start gap-5 sm:gap-8', className]} href={`/projects/${project.id}/`}>
+    {
+        coverSrc && (
+            <img
+                src={coverSrc}
+                alt={cover?.alt ?? ''}
+                loading="lazy"
+                class="aspect-[3/2] w-24 shrink-0 rounded object-cover sm:w-40"
+            />
+        )
+    }
+    <div class="grow">
+        <TitleTag
+            class="font-serif text-xl leading-tight font-medium group-hover:underline group-hover:decoration-dashed group-hover:decoration-1 group-hover:underline-offset-4 sm:text-2xl"
+        >
+            {title}
+        </TitleTag>
+        {description && <div class="mt-1 text-sm leading-normal">{description}</div>}
+        <div class="mt-2 hidden items-center gap-1 font-serif text-sm italic opacity-0 transition group-hover:opacity-100 sm:mt-3 sm:inline-flex">
+            View Project <ArrowRight class="h-4 w-4 fill-current" />
+        </div>
+    </div>
+</a>
