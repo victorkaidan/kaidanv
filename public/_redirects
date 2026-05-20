@@ -1,0 +1,20 @@
+# WordPress portfolio item URLs → new project URLs (slugs preserved 1:1)
+/portfolio/items/:slug/   /projects/:slug/   301
+/portfolio/items/:slug    /projects/:slug/   301
+
+# WordPress category archives → projects index
+/portfolio/category/*     /projects/         301
+
+# WordPress media paths → new uploads location
+/wp-content/uploads/*     /uploads/:splat    301
+
+# Old WordPress about page (now home — Dante structure)
+/about/                   /                  301
+/about                    /                  301
+
+# Legacy WordPress system URLs
+/wp-admin/*               /                  301
+/wp-login.php             /                  301
+/wp-json/*                /                  301
+/feed                     /                  301
+/feed/                    /                  301
