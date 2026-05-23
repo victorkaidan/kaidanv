@@ -1,16 +1,9 @@
 ---
-import { getEntry, render } from 'astro:content';
 import { marked } from 'marked';
 import Button from '../components/Button.astro';
 import siteConfig from '../data/site-config';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// Merged home + about. The hero title, intro paragraph, and about-page
-// paragraphs all live inside a single .prose container so paragraph spacing
-// stays uniform (a previous version split intro vs about into two sections,
-// which left a visibly larger gap after the first paragraph).
-const about = await getEntry('pages', 'about');
-const AboutContent = about ? (await render(about)).Content : null;
 const heroTitle = siteConfig.hero?.title;
 const heroText = siteConfig.hero?.text;
 const heroActions = siteConfig.hero?.actions ?? [];
@@ -25,7 +18,6 @@ const heroActions = siteConfig.hero?.actions ?? [];
         }
         <div class="prose sm:prose-lg max-w-none">
             {heroText && <Fragment set:html={marked.parse(heroText)} />}
-            {AboutContent && <AboutContent />}
         </div>
         {
             heroActions.length > 0 && (
