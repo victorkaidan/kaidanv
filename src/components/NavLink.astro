@@ -9,6 +9,14 @@ const { pathname } = Astro.url;
 const isActive = href === pathname || href === pathname.replace(/\/$/, '');
 ---
 
-<a class:list={[className, { 'underline decoration-1 underline-offset-2': isActive }]} href={href} {...props}>
-    <slot />
-</a>
+{
+    isActive ? (
+        <span class:list={[className, 'underline decoration-1 underline-offset-2']} aria-current="page">
+            <slot />
+        </span>
+    ) : (
+        <a class:list={[className]} href={href} {...props}>
+            <slot />
+        </a>
+    )
+}

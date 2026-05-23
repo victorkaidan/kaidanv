@@ -21,7 +21,7 @@ const siteConfig: SiteConfig = {
     ],
     footerNavLinks: [
         { text: 'About', href: '/' },
-        { text: 'Contact', href: 'mailto:victor.kaidan@gmail.com' }
+        { text: 'Earlier work', href: '/projects' }
     ],
     socialLinks: [
         { text: 'LinkedIn', href: 'https://www.linkedin.com/in/kaidan' }
