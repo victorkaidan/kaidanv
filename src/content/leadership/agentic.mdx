@@ -1,0 +1,63 @@
+---
+title: "Designing for Agentic Workflows in 2026: From UI to Intelligence"
+description: "The strategic shift from designing UI for humans to designing intelligence layers that agents consume on the user's behalf."
+publishDate: "2026-05-30"
+isFeatured: true
+seo:
+  title: "Designing for Agentic Workflows in 2026 — Victor Kaidan"
+  description: "The strategic shift from designing UI for humans to designing intelligence layers that agents consume on the user's behalf."
+---
+
+In 2026, agentic workflows aren't a future product category - they're an unfolding shift in how users get work done across multiple tools at once. Increasingly, work is orchestrated across an ecosystem of products, agents, and services acting on the user's behalf.
+
+The design challenge isn't simply adding an agent to an existing product. It's understanding how products participate in that ecosystem as users delegate, supervise, and occasionally reclaim control across multiple systems and surfaces.
+
+The strategic question for design isn't the agent's UI. It's the boundary between human and agent agency, and how that boundary is architected, exposed, and preserved as the underlying capabilities mature.
+
+## When the product is intelligence, not the interface
+
+Much of the current discourse frames agentic products as traditional products with an added AI surface - a chat, a sidebar, a co-pilot button. That framing mistakes the interface for the primary design subject.
+
+As users increasingly delegate work across tools and agents, products become defined less by what users do inside them directly and more by what external systems can do on their behalf. As protocols like MCP and A2A mature, products become less isolated destinations and more capability layers that other systems discover, invoke, and orchestrate.
+
+The real design surface, then, isn't the agent's interface. It's the architecture of the artifacts themselves and the boundary that determines what the agent is allowed to touch, how the user remains in the loop, and what gets exposed beyond the product's own UI.
+
+This isn't a small reframing. It changes what the design team actually produces: less time on agent UI patterns, more time on structured artifacts, permissions models, decision boundaries, observability, and governance. The chrome is downstream of the boundary.
+
+## Trust as the new primary design surface
+
+When the product becomes intelligence consumed through agents, trust stops being a compliance or engineering concern handled behind the scenes. It becomes a primary design surface - one of the most important things the team produces.
+
+The reason is structural. When users delegate work to an agent, they lose direct visibility into what the product is doing on their behalf. They no longer click through screens that show them state. Trust has to be earned, and re-earned, at surfaces the team is responsible for.
+
+These surfaces are the new UX heuristics: observability of what an agent is doing right now, explainability of the reasoning behind decisions, audit trails letting users reconstruct what happened and when, evidence and lineage grounding answers in sources. Each is a design surface with its own affordances and failure modes.
+
+Done well, they become lifelines and islands of confidence for the user when something looks off. Done badly, they become technical artifacts buried three menus deep that no one consults. The first builds the foundation that allows autonomy to grow; the second makes growing autonomy feel like losing control.
+
+## Escape-hatch design: autonomy grows, control stays permanent
+
+The discourse around "human in the loop" has hardened into two opposing camps. One says HITL is permanent - the user confirms every meaningful action, AI defers. The other says HITL is transitional - a friction-laden compromise that companies will quietly engineer out as model reliability improves.
+
+Both readings miss different aspects of what actually happens as autonomy grows. As models prove themselves across broader classes of decisions, users voluntarily give up active control - not because control stops mattering, but because checking every action stops being worth the time and cognitive effort. What persists is something deeper: the expectation that the underlying system remains manually accessible whenever the user needs a different mode of interaction.
+
+Users still prefer direct control when they need to influence the system at a level prompts can't reliably reach, or when a manual action through the UI is simply faster and more precise than coaxing the same outcome out of the AI. The user moves between autonomous and manual modes depending on context, confidence, stakes, and convenience.
+
+A common architectural mistake is assuming that system-level access can be simplified away once the agentic flow becomes reliable. It can't. Visual representation and manual control do not disappear; they migrate one layer deeper into the product's basement - the place users enter when they require absolute operational oversight, deep troubleshooting, recovery, or the reassurance of direct governance.
+
+The scalable framing is escape-hatch design: the AI flow becomes the primary interaction layer, while the underlying system-level surface remains architecturally permanent. These aren't competing UX paradigms or transitional states waiting to collapse into one another. They are co-existing architectural layers designed for different depths of human intent - one optimized for fluid delegation, the other for direct intervention when autonomy stops being enough.
+
+## Policies as a governance layer, not a competing paradigm
+
+A lot of recent writing treats the major AI interaction patterns - always-confirm, inspect-anomalies, fully-autonomous - as competing paradigms, each trying to win across all products. This framing is oversimplified - they aren't competing; they're modes that should be chosen per class of action, governed by a layer above them.
+
+The right structure is a classification of actions by risk, reversibility, and stakes, with a default interaction mode assigned per class. The user customizes the policy at the level that matters - "the agent can read and summarize freely, but must confirm any action that changes state shared with other people" - and the system enforces the choice across all surfaces, not interaction by interaction.
+
+This shifts the design subject again. The work isn't choosing between paradigms; the work is designing the classification scheme, the default policies, and the UX through which users tune them. Policies become the governance layer over interaction patterns - and the place where a product establishes its posture on user trust and agent autonomy.
+
+A consequence worth naming: when policy becomes the primary control surface, the per-action confirmation UX gets thinner. Many products today over-invest in confirmation dialogues and have no coherent policy layer underneath. The first is a facade. The second is architecture.
+
+---
+
+Across these four threads, the design function's subject expands in ways that don't have clear ownership in most B2B SaaS organizations yet. Boundary architecture, policy schemes, trust surfaces, observability of agent behavior - all of these sit at the intersection of design, engineering, product, and governance, and none of them have a settled home.
+
+The reality is that this operational space is being defined in real time. This isn't a space for a competitive land grab; it is a shared mandate requiring tight, cross-functional orchestration between product, design, backend architecture, and data engineering. That's the work I find most interesting right now - a space where peer discourse is still in its early stages, even if the strategic urgency is already clear.
