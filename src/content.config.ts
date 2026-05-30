@@ -59,4 +59,20 @@ const projects = defineCollection({
         })
 });
 
-export const collections = { blog, pages, projects };
+const leadership = defineCollection({
+    loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/leadership' }),
+    schema: ({ image }) =>
+        z.object({
+            title: z.string(),
+            description: z.string().optional(),
+            publishDate: z.coerce.date(),
+            isFeatured: z.boolean().default(false),
+            // Same draft semantics as projects: the page still builds at
+            // /leadership/<slug>/ so a direct link works, but the entry is hidden
+            // from the section listing and sitemap, and gets a noindex meta.
+            draft: z.boolean().default(false),
+            seo: seoSchema(image).optional()
+        })
+});
+
+export const collections = { blog, pages, projects, leadership };

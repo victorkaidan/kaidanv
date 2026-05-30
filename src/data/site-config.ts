@@ -16,11 +16,13 @@ const siteConfig: SiteConfig = {
     },
     headerNavLinks: [
         { text: 'About', href: '/' },
+        { text: 'Leadership', href: '/leadership' },
         { text: 'Earlier work', href: '/projects' },
         { text: 'CV', href: '/cv/victor_kaidan_cv-2024.pdf', target: '_blank' }
     ],
     footerNavLinks: [
         { text: 'About', href: '/' },
+        { text: 'Leadership', href: '/leadership' },
         { text: 'Earlier work', href: '/projects' }
     ],
     socialLinks: [

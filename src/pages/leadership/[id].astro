@@ -1,0 +1,71 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { sortItemsByDateDesc } from '../../utils/data-utils';
+
+export async function getStaticPaths() {
+    const allEntries = (await getCollection('leadership')).sort(sortItemsByDateDesc);
+    // `overview` is served by index.astro at /leadership/, so it's excluded here.
+    const deepDives = allEntries.filter((entry) => entry.id !== 'overview');
+    return deepDives.map((entry) => {
+        // "More from Leadership" surfaces the sibling deep-dives — never the
+        // current entry, the overview, or any draft.
+        const moreEntries = deepDives.filter((e) => e.id !== entry.id && !e.data.draft);
+        return {
+            params: { id: entry.id },
+            props: { entry, moreEntries }
+        };
+    });
+}
+
+type Props = {
+    entry: CollectionEntry<'leadership'>;
+    moreEntries: CollectionEntry<'leadership'>[];
+};
+
+const { entry, moreEntries } = Astro.props;
+const { title, description, seo, draft } = entry.data;
+const { Content } = await render(entry);
+---
+
+<BaseLayout
+    title={seo?.title ?? title}
+    description={seo?.description ?? description}
+    image={seo?.image}
+    pageType="article"
+    showHeader={false}
+    noindex={draft}
+>
+    <article class="mb-16 sm:mb-24">
+        <header class="mb-8">
+            <h1 class="font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{title}</h1>
+        </header>
+        <div class="prose sm:prose-lg max-w-none">
+            <Content />
+        </div>
+    </article>
+    {
+        moreEntries.length > 0 && (
+            <div class="my-16 sm:my-24">
+                <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">More from Leadership</h2>
+                <ul class="flex flex-col gap-8">
+                    {moreEntries.map((more) => (
+                        <li>
+                            <a class="group block" href={`/leadership/${more.id}/`}>
+                                <h3 class="font-serif text-xl font-medium group-hover:underline group-hover:decoration-1 group-hover:underline-offset-2 sm:text-2xl">
+                                    {more.data.title}
+                                </h3>
+                                {more.data.description && <p class="mt-2 text-base opacity-70">{more.data.description}</p>}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        )
+    }
+    <div class="mb-16 sm:mb-24">
+        <a class="font-serif hover:underline hover:decoration-1 hover:underline-offset-2" href="/leadership/">
+            ← Back to Leadership
+        </a>
+    </div>
+</BaseLayout>

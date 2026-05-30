@@ -1,0 +1,59 @@
+---
+title: "Design with AI in 2026: Enable and Constrain"
+description: "AI as a working material inside the design process — what changes for research, design systems, and the handoff loop."
+publishDate: "2026-05-30"
+isFeatured: true
+seo:
+  title: "Design with AI in 2026: Enable and Constrain — Victor Kaidan"
+  description: "AI as a working material inside the design process — what changes for research, design systems, and the handoff loop with Engineering."
+---
+
+In 2026, AI is becoming a working material inside the design process - not a replacement for it. Below is the direction my team is moving: a roadmap, not a finished system. The shifts that matter aren't [only] in execution speed but in what gets produced, who consumes it, and how the team is organized around it. Humans and Figma are still very much in the game, even if the processes they are part of are changing fundamentally.
+
+Three threads my team and I are working through right now: where the design system has to evolve, how research can scale beyond the team, and how the handoff loop with Engineering is changing shape in the new AI-era.
+
+## Tooling becomes contextual, not central
+
+Where AI plays well today is at the front of the process - ideation, brainstorming, and rapid prototyping. But in practice, that's only a small fraction of the product design work. Most of what the team does requires grounding in real persona context and the deep systemic knowledge, where current AI tooling cannot yet contribute meaningfully. The "AI takes over everywhere" narrative is overstated by the industry discourse, at least today.
+
+However, AI capabilities evolve so quickly. What's coming next isn't a linear automation or even bi-directional handoff so much as a contextual one. The era of one primary tool where all the work lives seems to be ending. Different tools may serve different parts of the work, and which one to use depends on what kind of move the work needs at that moment.
+
+Figma stays as a source of truth for the design system and component-level design. But for project work, the role shifts: sometimes Figma is the foundation, sometimes it's used only for focused deep refinements, and sometimes the work moves entirely in the running product through AI tooling without touching Figma at all. The team learns to navigate which environment is right for which kind of decision - not a fixed pipeline, but a portfolio of tools used by context and relevance.
+
+It is tempting to assume that the barriers to executing this vision are primarily tooling-centric. Once the tools and integrations become reliable, adoption will indeed accelerate - but that maturity will only shift the focus to the real constraint. Ultimately, the execution lives or dies by the team's ability to overcome psychological inertia and adapt to rapidly shifting operational patterns.
+
+## Research as a multiplier, not just an accelerator
+
+We haven't moved to specialized AI research platforms; in B2B - and particularly B2B2B - you especially value live interaction with participants and personal control over research sessions. Instead, AI runs across every stage of the existing process - from data collection and analysis to structuring findings. Cycle time shortens, as expected.
+
+The change that matters more is what happens to the *output*. The team is working toward centralizing research findings so they can be shared across the organization. These exist as Claude Projects where raw data, analyses, and conclusions are packaged together in a hierarchical structure - so anyone in the company can ask questions and get grounded answers, with reasoning trails back to source material. The UX team bridges the gap on topics that require domain expertise or a deep dive.
+
+The first-order effect is obvious - less time spent fielding questions the team would otherwise own. The second-order effect matters more: research-derived knowledge starts circulating beyond the teams adjacent to design - CS, sales, marketing, etc. giving them a single place to access valuable insights.
+
+This approach doesn't solve, and shouldn't pretend to, the operational layer underneath: validating model answers and watching for hallucinations, marking research as stale when it ages. Each of those is an ongoing investment at scale. At minimum, the output should be explicitly treated as a directional springboard, not an absolute truth.
+
+## From Design System to a Generative Frontend Engine
+
+The design system remains the cornerstone - and now, more than ever, it requires proper architectural organization as it scales into a much larger and more significant structure. This is our biggest in-progress project - generative processes built over the design system, in three connected layers - an approach many teams are only beginning to apply.
+
+The first, foundational layer connects Figma to Storybook and a shared component library. Components are defined and produced by designers via a semi-automated generative workflow with minimal participation from the engineering team. The structure of styles and design rules transfers into the library, establishing a development-side source of truth that frontend implementation consumes directly.
+
+The second step is generation of entire designs, screens, and flows from a Figma source - with a strict constraint that every component used must come from the generated library, every UI property is tokenized. AI skills and instructions enforce this discipline. The process is set to speed up the development process and produce UI that's pre-bound to the system.
+
+The third piece, the one we're building toward, is encoding the platform's own best practices and patterns so generation can happen not just from Figma designs but from prompts authored by other teams. This is useful at the edges: brainstorming, concept work, quick implementation of small features or bug fixes that start inside Engineering or Product and then come to design for refinement.
+
+This enables PMs and engineers to produce first-pass prototypes grounded in real components and patterns. It's not a path to universal automation, and it shouldn't be. For projects that require genuine UX rethinking, the product designer stays involved from the start, on the foundational decisions, before anything touches the system. For light tasks, this frees up designers to move faster.
+
+The structural risk here is real. On one hand, every generated element has to map to existing components, and if a PM or engineer hits something the library doesn't have, the system may produce a quiet mismatch that lives until someone pays attention. On the other hand, allowing other teams to generate UI might be misread as a loss of design control, potentially increasing platform inconsistency.
+
+However, the goal must justify the risks - the business landscape is shifting rapidly, requiring the company to operate with maximum velocity and agility. Strict process configuration and its constraints are critical here. But it's also defined by how the design review and decision function is positioned. The lever isn't generation. It's how the team holds the line on what goes forward.
+
+---
+
+Across all three threads, the work has moved up the abstraction stack: less direct production, more configuration of the systems that produce it. With this shift, the goal is to simultaneously unlock execution speed while strictly protecting system integrity. This dual mechanism - enable-and-constrain - emerges as the foundational formula for how AI is embedded into everything.
+
+There's an optimistic and a pessimistic reading of what this means for the team. Optimistically: when production work compresses, senior judgment - the connection between UX, business, and technical context - becomes the default expectation across the team, not the privilege of the most experienced. Pessimistically: if multi-context fluency becomes the entry bar, the door gets harder to enter, not easier.
+
+The skills to seamlessly optimize workflows, switch contexts, and adopt tools historically gatekept by engineering are no trivial feat - it requires deliberate upskilling. Yet, this exact blend, coupled with the acumen to drive business decisions and govern processes rather than just execute tasks - defines the competitive edge of a product designer these days. As leaders, our mandate is to cultivate these competencies across the entire team.
+
+For how this shift plays out at the product level - what products become when intelligence flows through them on the user's behalf - see [Designing for Agentic Workflows](/leadership/agentic).
