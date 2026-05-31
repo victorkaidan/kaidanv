@@ -1,3 +1,9 @@
+# Old "redesign" variant of the Lendmart form case study → consolidated slug.
+# Must precede the generic rule below (Cloudflare uses first match, top-down),
+# otherwise it would 301 to a non-existent /projects/lendmart-application-form-redesign/.
+/portfolio/items/lendmart-application-form-redesign/   /projects/lendmart-application-form/   301
+/portfolio/items/lendmart-application-form-redesign    /projects/lendmart-application-form/   301
+
 # WordPress portfolio item URLs → new project URLs (slugs preserved 1:1)
 /portfolio/items/:slug/   /projects/:slug/   301
 /portfolio/items/:slug    /projects/:slug/   301
