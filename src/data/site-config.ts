@@ -17,8 +17,7 @@ const siteConfig: SiteConfig = {
     headerNavLinks: [
         { text: 'About', href: '/' },
         { text: 'Leadership', href: '/leadership' },
-        { text: 'Earlier work', href: '/projects' },
-        { text: 'CV', href: '/cv/victor_kaidan_cv-2024.pdf', target: '_blank' }
+        { text: 'Earlier work', href: '/projects' }
     ],
     footerNavLinks: [
         { text: 'About', href: '/' },
@@ -26,7 +25,8 @@ const siteConfig: SiteConfig = {
         { text: 'Earlier work', href: '/projects' }
     ],
     socialLinks: [
-        { text: 'LinkedIn', href: 'https://www.linkedin.com/in/kaidan' }
+        { text: 'LinkedIn', href: 'https://www.linkedin.com/in/kaidan' },
+        { text: 'CV', href: '/cv/victor_kaidan_cv-2024.pdf' }
     ],
     hero: {
         title: 'Architecting Products and Design Teams for the AI Era',
