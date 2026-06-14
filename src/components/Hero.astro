@@ -1,5 +1,5 @@
 ---
-import { marked } from 'marked';
+import { markdown } from '../utils/markdown';
 import type { Hero as HeroProps } from '../types';
 import Button from './Button.astro';
 import CustomImage from './CustomImage.astro';
@@ -26,7 +26,7 @@ const { title, image, text, actions } = Astro.props;
                     {image.caption && <figcaption class="mt-1.5 text-xs sm:text-sm">{image.caption}</figcaption>}
                 </figure>
             )}
-            {text && <div class="prose sm:prose-lg max-w-none" set:html={marked.parse(text)} />}
+            {text && <div class="prose sm:prose-lg max-w-none" set:html={markdown.parse(text)} />}
             {actions && actions.length > 0 && (
                 <div class="flex flex-wrap gap-4">
                     {actions.map((action) => (

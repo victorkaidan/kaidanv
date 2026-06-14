@@ -1,5 +1,5 @@
 ---
-import { marked } from 'marked';
+import { markdown } from '../utils/markdown';
 import Button from '../components/Button.astro';
 import siteConfig from '../data/site-config';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -17,7 +17,7 @@ const heroActions = siteConfig.hero?.actions ?? [];
             )
         }
         <div class="prose sm:prose-lg max-w-none">
-            {heroText && <Fragment set:html={marked.parse(heroText)} />}
+            {heroText && <Fragment set:html={markdown.parse(heroText)} />}
         </div>
         {
             heroActions.length > 0 && (

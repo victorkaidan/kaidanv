@@ -26,7 +26,7 @@ const siteConfig: SiteConfig = {
     ],
     socialLinks: [
         { text: 'LinkedIn', href: 'https://www.linkedin.com/in/kaidan' },
-        { text: 'CV', href: '/cv/victor_kaidan_cv-2024.pdf' }
+        { text: 'CV', href: '/cv/victor_kaidan_cv-2025.pdf' }
     ],
     hero: {
         title: 'Architecting Products and Design Teams for the AI Era',
@@ -38,8 +38,7 @@ This organizational foundation is especially critical now, as AI rewrites what d
 
 Prior to my current role, I spent over two decades delivering large-scale products and leading design teams across enterprise SaaS, fintech, and consumer tech. That diverse range is what anchors my perspective on how to build systems and teams that endure.
 
-For career details, see my [CV](/cv/victor_kaidan_cv-2024.pdf). To talk shop, just drop me a line at [victor.kaidan@gmail.com](mailto:victor.kaidan@gmail.com).`,
-        actions: [{ text: 'Get in Touch', href: 'mailto:victor.kaidan@gmail.com' }]
+For career details, see my [CV](/cv/victor_kaidan_cv-2025.pdf). To talk shop, just drop me a line at [victor.kaidan@gmail.com](mailto:victor.kaidan@gmail.com).`
     },
     subscribe: {
         enabled: false
