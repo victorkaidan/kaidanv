@@ -1,0 +1,171 @@
+---
+// Fig. 3 for the Shared Loop article: the delegation ladder - assigned by
+// default, delegation earned outward, pull-back triggers stepping work one
+// level back, and the review bar no path removes. Transparent background;
+// palette follows the source document's figures and adapts to the dark theme.
+interface Props {
+    caption?: string;
+}
+const { caption } = Astro.props;
+---
+
+<figure class="sl-figure">
+    <svg viewBox="0 0 760 296" role="img" aria-label="Diagram: three execution paths - assigned (the default), guided, and self-serve. Delegation is earned outward, pull-back triggers return work one level toward the owner, and every path ships through the owning function's review and approval.">
+        <defs>
+            <marker id="dl-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path class="mk-ink" d="M 0 1 L 8 5 L 0 9" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            </marker>
+            <marker id="dl-arrow-slate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path class="mk-soft" d="M 0 1 L 8 5 L 0 9" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </marker>
+        </defs>
+
+        <!-- pull-back arcs: one step back per trigger -->
+        <path class="ln-pullback" d="M 600 62 C 545 28, 455 28, 402 60" fill="none" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#dl-arrow-slate)"></path>
+        <path class="ln-pullback" d="M 360 62 C 305 28, 215 28, 162 60" fill="none" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#dl-arrow-slate)"></path>
+        <text x="380" y="14" text-anchor="middle" class="sl-note">pull-back triggers return work one level toward the owner</text>
+
+        <!-- ASSIGNED -->
+        <rect class="bx-assigned" x="40" y="68" width="200" height="118" rx="12" stroke-width="1.5"></rect>
+        <text x="140" y="96" text-anchor="middle" class="sl-box-title t-ink">ASSIGNED</text>
+        <text x="140" y="112" text-anchor="middle" class="sl-sub">the default</text>
+        <text x="140" y="142" text-anchor="middle" class="sl-line">executes: the owning team</text>
+        <text x="140" y="160" text-anchor="middle" class="sl-line">owner engages: from day one</text>
+
+        <!-- GUIDED -->
+        <rect class="bx-guided" x="280" y="68" width="200" height="118" rx="12" stroke-width="1.5"></rect>
+        <text x="380" y="96" text-anchor="middle" class="sl-box-title t-amber">GUIDED</text>
+        <text x="380" y="112" text-anchor="middle" class="sl-sub">direction from the owner</text>
+        <text x="380" y="142" text-anchor="middle" class="sl-line">executes: the ticket holder</text>
+        <text x="380" y="160" text-anchor="middle" class="sl-line">owner engages: consult + review</text>
+
+        <!-- SELF-SERVE -->
+        <rect class="bx-self" x="520" y="68" width="200" height="118" rx="12" stroke-width="1.5"></rect>
+        <text x="620" y="96" text-anchor="middle" class="sl-box-title t-teal">SELF-SERVE</text>
+        <text x="620" y="112" text-anchor="middle" class="sl-sub">the system replaces the consult</text>
+        <text x="620" y="142" text-anchor="middle" class="sl-line">executes: the ticket holder</text>
+        <text x="620" y="160" text-anchor="middle" class="sl-line">owner engages: at review</text>
+
+        <!-- delegation arrows -->
+        <line class="ln-ink" x1="246" y1="127" x2="272" y2="127" stroke-width="1.5" marker-end="url(#dl-arrow)"></line>
+        <line class="ln-ink" x1="486" y1="127" x2="512" y2="127" stroke-width="1.5" marker-end="url(#dl-arrow)"></line>
+
+        <!-- connectors to the review bar -->
+        <line class="ln-connector" x1="140" y1="186" x2="140" y2="222" stroke-width="1.2" marker-end="url(#dl-arrow-slate)"></line>
+        <line class="ln-connector" x1="380" y1="186" x2="380" y2="222" stroke-width="1.2" marker-end="url(#dl-arrow-slate)"></line>
+        <line class="ln-connector" x1="620" y1="186" x2="620" y2="222" stroke-width="1.2" marker-end="url(#dl-arrow-slate)"></line>
+
+        <!-- review bar -->
+        <rect class="bx-bar" x="40" y="230" width="680" height="46" rx="10"></rect>
+        <text x="136" y="258" text-anchor="start" class="sl-bar">ships through the owning function's review and approval</text>
+        <text x="524" y="258" text-anchor="start" class="sl-bar t-lime">· on every path</text>
+    </svg>
+    {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+    .sl-figure {
+        margin: 2.5rem 0;
+        --ink: #0e1b26;
+        --ink-soft: #33475a;
+        --fill-assigned: #e9eff3;
+        --fill-guided: #fbf3e3;
+        --fill-self: #e7f7f8;
+        --bar: #0e1b26;
+        --bar-ink: #ffffff;
+        --teal: #1fa7b0;
+        --amber: #dd9426;
+        --lime: #c9f24b;
+    }
+    :global(html.dark) .sl-figure {
+        --ink: #e6ecf0;
+        --ink-soft: #a9b6c2;
+        --fill-assigned: #212f3b;
+        --fill-guided: #33291a;
+        --fill-self: #14333a;
+        --bar: #223240;
+        --bar-ink: #f2f1ec;
+    }
+    .sl-figure svg {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    .sl-figure text {
+        font-family: 'Inter Variable', sans-serif;
+    }
+    .sl-box-title {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+    }
+    .t-ink {
+        fill: var(--ink);
+    }
+    .t-amber {
+        fill: var(--amber);
+    }
+    .t-teal {
+        fill: var(--teal);
+    }
+    .sl-figure .t-lime {
+        fill: var(--lime);
+    }
+    .sl-sub {
+        font-size: 10px;
+        fill: var(--ink-soft);
+        opacity: 0.8;
+    }
+    .sl-line {
+        font-size: 11px;
+        fill: var(--ink);
+        opacity: 0.85;
+    }
+    .sl-note {
+        font-size: 11px;
+        fill: var(--ink-soft);
+        opacity: 0.85;
+    }
+    .sl-bar {
+        font-size: 12.5px;
+        font-weight: 500;
+        fill: var(--bar-ink);
+    }
+    .mk-ink {
+        stroke: var(--ink);
+    }
+    .mk-soft {
+        stroke: var(--ink-soft);
+    }
+    .ln-ink {
+        stroke: var(--ink);
+    }
+    .ln-pullback {
+        stroke: var(--ink-soft);
+    }
+    .ln-connector {
+        stroke: var(--ink-soft);
+        opacity: 0.6;
+    }
+    .bx-assigned {
+        fill: var(--fill-assigned);
+        stroke: var(--ink);
+    }
+    .bx-guided {
+        fill: var(--fill-guided);
+        stroke: var(--amber);
+    }
+    .bx-self {
+        fill: var(--fill-self);
+        stroke: var(--teal);
+    }
+    .bx-bar {
+        fill: var(--bar);
+    }
+    .sl-figure figcaption {
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+        opacity: 0.7;
+        text-align: center;
+    }
+</style>

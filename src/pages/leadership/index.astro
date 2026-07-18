@@ -15,11 +15,12 @@ const { Content } = await render(overview);
 
 // Navigational list of deep-dives below the overview — the /projects/ listing
 // analog for this section. Drafts are hidden, matching projects listing semantics.
-// The two current pieces share a publishDate, so we pin an explicit reading
-// order rather than rely on a date tie-break: design-with-ai is the foundational
-// piece and forward-links into agentic. Entries not listed here fall back to
+// We pin an explicit reading order rather than rely on a date tie-break:
+// design-with-ai states the general problem and the enable-and-constrain
+// formula, shared-loop is the concrete operating model built on it, agentic
+// looks outward at the product level. Entries not listed here fall back to
 // date-desc and sort after the pinned ones.
-const DEEP_DIVE_ORDER = ['design-with-ai', 'agentic'];
+const DEEP_DIVE_ORDER = ['design-with-ai', 'shared-loop', 'agentic'];
 const orderRank = (id: string) => {
     const i = DEEP_DIVE_ORDER.indexOf(id);
     return i === -1 ? Infinity : i;
@@ -54,6 +55,7 @@ const deepDives = allEntries
                         <div class="grow">
                             <h3 class="font-serif text-xl leading-tight font-medium group-hover:underline group-hover:decoration-dashed group-hover:decoration-1 group-hover:underline-offset-4 sm:text-2xl">
                                 {entry.data.title}
+                                {entry.data.subtitle && ` - ${entry.data.subtitle}`}
                             </h3>
                             {entry.data.description && <div class="mt-1 text-sm leading-normal">{entry.data.description}</div>}
                         </div>

@@ -24,7 +24,7 @@ type Props = {
 };
 
 const { entry, moreEntries } = Astro.props;
-const { title, description, seo, draft } = entry.data;
+const { title, subtitle, description, seo, draft } = entry.data;
 const { Content } = await render(entry);
 ---
 
@@ -39,6 +39,7 @@ const { Content } = await render(entry);
     <article class="mb-16 sm:mb-24">
         <header class="mb-8">
             <h1 class="font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{title}</h1>
+            {subtitle && <p class="mt-3 font-serif text-xl leading-snug font-medium italic opacity-75 sm:text-2xl">{subtitle}</p>}
         </header>
         <div class="prose sm:prose-lg max-w-none">
             <Content />
@@ -54,6 +55,7 @@ const { Content } = await render(entry);
                             <a class="group block" href={`/leadership/${more.id}/`}>
                                 <h3 class="font-serif text-xl font-medium group-hover:underline group-hover:decoration-1 group-hover:underline-offset-2 sm:text-2xl">
                                     {more.data.title}
+                                    {more.data.subtitle && ` - ${more.data.subtitle}`}
                                 </h3>
                                 {more.data.description && <p class="mt-2 text-base opacity-70">{more.data.description}</p>}
                             </a>

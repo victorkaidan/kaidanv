@@ -1,0 +1,157 @@
+---
+// Fig. 1 for the Shared Loop article: the original chain-vs-loop illustration,
+// transcribed 1:1 from the source document's inline SVG (geometry unchanged).
+// Live text, transparent background, theme-adaptive via CSS variables like
+// the other Shared Loop figures.
+interface Props {
+    caption?: string;
+}
+const { caption } = Astro.props;
+---
+
+<figure class="sl-figure">
+    <svg viewBox="0 0 880 330" role="img" aria-label="Diagram: before - a linear handoff where PM and UX feed Engineering, which produces the product. Now - the shared loop: PM, UX, and Engineering arranged around the product, with AI as the shared production medium, and work flowing in both directions between every role.">
+        <!-- ============ BEFORE · LINEAR HANDOFF ============ -->
+        <text x="195" y="26" text-anchor="middle" class="hd">BEFORE · LINEAR HANDOFF</text>
+        <circle class="nd" cx="110" cy="84" r="31" stroke-width="1.5"></circle>
+        <text x="110" y="88" text-anchor="middle" class="nd-t">PM</text>
+        <circle class="nd" cx="280" cy="84" r="31" stroke-width="1.5"></circle>
+        <text x="280" y="88" text-anchor="middle" class="nd-t">UX</text>
+        <circle class="nd" cx="195" cy="178" r="31" stroke-width="1.5"></circle>
+        <text x="195" y="182" text-anchor="middle" class="nd-t">Eng</text>
+        <circle class="disc" cx="195" cy="276" r="32"></circle>
+        <text x="195" y="280" text-anchor="middle" class="lime-t sm">Product</text>
+
+        <line class="ln-d" x1="156" y1="84" x2="234" y2="84" stroke-width="1.4" stroke-dasharray="4 4"></line>
+        <polygon class="ah" points="147.0,84.0 156.0,79.0 156.0,89.0"></polygon>
+        <polygon class="ah" points="243.0,84.0 234.0,89.0 234.0,79.0"></polygon>
+        <line class="ln" x1="133.5" y1="110.0" x2="165.5" y2="145.4" stroke-width="1.6"></line>
+        <polygon class="ah" points="170.2,150.6 160.5,147.2 167.8,140.6"></polygon>
+        <line class="ln" x1="256.5" y1="110.0" x2="224.5" y2="145.4" stroke-width="1.6"></line>
+        <polygon class="ah" points="219.8,150.6 222.2,140.6 229.5,147.2"></polygon>
+        <line class="ln" x1="195" y1="213" x2="195" y2="233" stroke-width="1.6"></line>
+        <polygon class="ah" points="195.0,240.0 190.1,231.0 199.9,231.0"></polygon>
+
+        <!-- transition -->
+        <line class="tr" x1="380" y1="176" x2="440" y2="176" stroke-width="2.5"></line>
+        <polygon class="tr-h" points="438,170 438,182 450,176"></polygon>
+
+        <!-- ============ NOW · THE SHARED LOOP ============ -->
+        <text x="655" y="26" text-anchor="middle" class="hd">NOW · THE SHARED LOOP</text>
+        <circle class="halo" cx="655" cy="182" r="64" stroke-width="1.5"></circle>
+        <circle class="disc" cx="655" cy="182" r="42"></circle>
+        <text x="655" y="187" text-anchor="middle" class="lime-t">Product</text>
+        <text x="655" y="236" text-anchor="middle" class="ai-t">AI</text>
+
+        <circle class="nd" cx="655.0" cy="64.0" r="30" stroke-width="1.5"></circle>
+        <text x="655.0" y="68.0" text-anchor="middle" class="nd-t">PM</text>
+        <line class="ln" x1="655.0" y1="98.0" x2="655.0" y2="105.0" stroke-width="1.6"></line>
+        <polygon class="ah" points="655.0,112.0 650.0,103.0 660.0,103.0"></polygon>
+
+        <circle class="nd" cx="553.9" cy="242.8" r="30" stroke-width="1.5"></circle>
+        <text x="553.9" y="246.8" text-anchor="middle" class="nd-t">Eng</text>
+        <line class="ln" x1="583.0" y1="225.3" x2="589.0" y2="221.7" stroke-width="1.6"></line>
+        <polygon class="ah" points="595.0,218.1 589.8,226.9 584.7,218.4"></polygon>
+
+        <circle class="nd" cx="756.1" cy="242.8" r="30" stroke-width="1.5"></circle>
+        <text x="756.1" y="246.8" text-anchor="middle" class="nd-t">UX</text>
+        <line class="ln" x1="727.0" y1="225.3" x2="721.0" y2="221.7" stroke-width="1.6"></line>
+        <polygon class="ah" points="715.0,218.1 725.3,218.4 720.2,226.9"></polygon>
+
+        <path class="ln-d" d="M 691.5 69.8 A 118 118 0 0 1 770.0 208.5" fill="none" stroke-width="1.3" stroke-dasharray="4 5"></path>
+        <polygon class="ah" points="691.5,69.8 700.4,68.1 697.7,76.4"></polygon>
+        <polygon class="ah" points="770.0,208.5 767.5,199.8 776.1,201.7"></polygon>
+        <path class="ln-d" d="M 732.4 271.1 A 118 118 0 0 1 577.6 271.1" fill="none" stroke-width="1.3" stroke-dasharray="4 5"></path>
+        <polygon class="ah" points="732.4,271.1 729.3,279.6 723.5,273.0"></polygon>
+        <polygon class="ah" points="577.6,271.1 586.5,273.0 580.7,279.6"></polygon>
+        <path class="ln-d" d="M 540.0 208.5 A 118 118 0 0 1 618.5 69.8" fill="none" stroke-width="1.3" stroke-dasharray="4 5"></path>
+        <polygon class="ah" points="540.0,208.5 533.9,201.7 542.5,199.8"></polygon>
+        <polygon class="ah" points="618.5,69.8 612.3,76.4 609.6,68.1"></polygon>
+    </svg>
+    {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+    .sl-figure {
+        margin: 2.5rem 0;
+        --ink: #0e1b26;
+        --ink-soft: #33475a;
+        --ink-faint: #7a8b99;
+        --teal: #1fa7b0;
+        --lime: #c9f24b;
+        --disc: #0e1b26;
+        --halo: #e7f7f8;
+        --node-fill: transparent;
+    }
+    :global(html.dark) .sl-figure {
+        --ink: #e6ecf0;
+        --ink-soft: #a9b6c2;
+        --ink-faint: #7d8b98;
+        --disc: #263949;
+        --halo: #14333a;
+    }
+    .sl-figure svg {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    .sl-figure text {
+        font-family: 'Inter Variable', sans-serif;
+    }
+    .hd {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        fill: var(--ink-faint);
+    }
+    .nd {
+        fill: var(--node-fill);
+        stroke: var(--teal);
+    }
+    .nd-t {
+        font-size: 12.5px;
+        font-weight: 600;
+        fill: var(--ink);
+    }
+    .halo {
+        fill: var(--halo);
+        stroke: var(--teal);
+    }
+    .disc {
+        fill: var(--disc);
+    }
+    .lime-t {
+        font-size: 12.5px;
+        font-weight: 700;
+        fill: var(--lime);
+    }
+    .lime-t.sm {
+        font-size: 11.5px;
+    }
+    .ai-t {
+        font-size: 10.5px;
+        font-weight: 600;
+        fill: var(--teal);
+    }
+    .ln {
+        stroke: var(--ink-soft);
+    }
+    .ln-d {
+        stroke: var(--ink-soft);
+    }
+    .ah {
+        fill: var(--ink-soft);
+    }
+    .tr {
+        stroke: var(--teal);
+    }
+    .tr-h {
+        fill: var(--teal);
+    }
+    .sl-figure figcaption {
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+        opacity: 0.7;
+        text-align: center;
+    }
+</style>

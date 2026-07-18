@@ -64,6 +64,10 @@ const leadership = defineCollection({
     schema: ({ image }) =>
         z.object({
             title: z.string(),
+            // Optional display subtitle: rendered under the H1 on the article
+            // page in a smaller size, and appended to the title (" - subtitle")
+            // in listings and "More from Leadership" links.
+            subtitle: z.string().optional(),
             description: z.string().optional(),
             publishDate: z.coerce.date(),
             isFeatured: z.boolean().default(false),

@@ -1,0 +1,180 @@
+---
+title: "The Shared Loop"
+subtitle: "A Product Development Lifecycle for the AI Era"
+description: "Why AI breaks the handoff chain - and the operating model that replaces it: three delegation paths, one invariant. Production can become distributed; ownership cannot."
+publishDate: "2026-07-17"
+isFeatured: true
+seo:
+  title: "The Shared Loop: An AI-Era PDLC — Victor Kaidan"
+  description: "An operating model for AI-era product development: distributed production across PM, Design, and Engineering - with ownership that never moves."
+---
+
+import FigureChainToLoop from '../../components/FigureChainToLoop.astro';
+import FigureTicketAspects from '../../components/FigureTicketAspects.astro';
+import FigureDelegationLadder from '../../components/FigureDelegationLadder.astro';
+
+For two decades the product development lifecycle was a relay race. PM writes the PRD, Design turns it into flows and screens, Engineering turns screens into code. Each baton pass is a queue - and with AI dramatically speeding up every runner, the queues, not the running, now consume most of the calendar.
+
+The numbers make this concrete. Estimates I find credible put the gains over the next year or so at 2.5-5x for Engineering and 2-3x each for Product Management and Product Design. Then comes the fourth number: the organization as a whole speeds up 1.5-2.5x - lower than any single discipline. Capacity grows inside disciplines and dies in the queues between them.
+
+The Shared Loop is the operating model I've been building at Sisense to attack exactly that gap: it removes the blocking stages, not just the working time. Nothing below is specific to our stack - the framework runs on any ticket system, any component library, and whatever agentic tooling you already have.
+
+## Everyone is now a junior in the neighboring discipline
+
+AI collapses the distance between the roles. A designer with an agentic coding tool can ship a frontend change. An engineer with design-system-aware generation can produce a workable screen. A PM can turn an idea into a running prototype before the kickoff meeting happens.
+
+In broad terms: designers become, to some extent, junior developers; PMs and engineers become, to some extent, junior designers. "Junior" is chosen deliberately. Junior colleagues do real production work - but without deep discipline expertise: system architecture, internal dependencies, design-system conventions, user context, the hundred factors specialists weigh without noticing. What makes a junior safe is the structure around them - and with AI tools, that structure can be codified in skills, workflows, and gates rather than in hallway supervision.
+
+The risk of skipping the structure is as real as the prize. AI is remarkably good at making output look finished - and surface polish reads as expertise even where none was applied. An engineer generates a screen that looks done but is structurally and behaviorally incoherent. A designer merges a change that looks trivial but quietly breaks a dependency three modules away. Vibe-designing and vibe-coding are the same failure: production without judgment. The result isn't slower delivery - it's fast delivery of the wrong thing, which is worse.
+
+So the whole model reduces to one sentence:
+
+> Let anyone produce across function boundaries - through a shared system that constrains their output to the function's standards - while every shipped change is still reviewed, approved, and owned by the function team. Enable, and constrain.
+
+## From a handoff chain to a shared loop
+
+The traditional flow was a chain: each stage blocked on the previous one, and every clarification traveled backward through a queue. In the shared loop, the three disciplines work concurrently around the product, with AI as the shared production medium. Any role can originate work; the function teams hold the quality bar and the final word in their own discipline.
+
+<FigureChainToLoop caption="Fig. 1 - The lifecycle stops being a chain of blocking stages and becomes one concurrent cycle around the product, with AI as the shared production medium." />
+
+What each role gains - and what never moves:
+
+| Role | Now can also produce | Still exclusively owns |
+| --- | --- | --- |
+| Engineers | Screens, flows, and prototypes generated from the component library and established patterns | Architecture, implementation standards, code quality - what merges |
+| Designers | Frontend changes directly in code: visual refinements, component adjustments, small fixes | User experience, the design system, patterns, product behavior - what ships to users' eyes and hands |
+| PMs | Working prototypes and first-pass artifacts in both directions | Intent, priority, scope, acceptance - why and whether |
+
+Task definition is distributed the same way. Defining work stops being a PM-only act: an engineer or designer can originate a ticket and draft its spec. The PM remains accountable for intent, priority, and acceptance - authorship of the draft is open, ownership of the decision is not.
+
+## Every ticket declares its path
+
+Seen from inside a sprint, the framework is one routing decision, made per ticket: who executes each aspect of the work, and when the owning team engages.
+
+Work type alone can't make that decision. A "bug" fix can quietly redesign an interaction pattern; a feature "story" can be a trivial, fully patterned UI addition. Work type still matters - it sets the process weight: how deep the spec goes, how the branch is cut, which CI gates apply. The principle underneath is that definitions and process are sized to the work - never skipped silently, never over-applied. But work type answers how heavy, not who.
+
+So each ticket carries up to three labels - one per aspect, because every ticket has up to three: a design aspect, owned by Product Design; a code aspect, owned by Engineering; and a definition aspect - the statement of intent, scope, and "done" - owned by PM. Each aspect routes independently through the same three-step ladder.
+
+<FigureTicketAspects caption="Fig. 2 - One ticket, three aspects, each routed independently by its own label. An absent label means the owner executes; an explicit none declares the aspect missing altogether." />
+
+In practice these are plain Jira labels - `design-path`, `code-path`, `def-path` - each naming the delegation step directly. The default is safe by construction: an unlabeled aspect simply stays with its owner. Nobody has to label anything to keep work safe; a label is added only to take work across a boundary - which also makes the labels the audit record of every delegation. Labels are set at triage, like any other field, and corrected by the owning team at consultation or review; repeated corrections aren't friction, they're how the gate criteria get refined.
+
+The scale also needs an explicit zero. Not every ticket carries all three aspects: a backend-only change has no design aspect to route, and a research spike may produce no code. A `none` value - `design-path: none` - is the one label that doesn't delegate anything: it declares the aspect absent. The declaration matters more than it looks. Without it, "no design work here" and "design work, with its owner by default" are the same unlabeled state - so path metrics count the wrong denominator, and automated review gates can't tell whether they're waiting for anyone. The zero earns its keep mostly on the design aspect, where a "purely technical" ticket with quiet UX implications is the classic miss: an explicit none set at triage is a decision the owner can correct, not an assumption nobody made.
+
+Two boundaries keep the zero safe. None asserts absence, not exemption - the moment work of that aspect appears in the diff, the label was wrong, and the work stops for re-routing. And the definition aspect has no zero at all: a ticket cannot lack a definition, because the ticket is its own minimal one - that floor is self-serve, not absence.
+
+The direction of the logic matters more than the mechanics. This is a delegation test, not an escalation test. Every aspect starts assigned to the team that owns it - the default and the safest answer. Delegation moves outward only when the gates qualify it: to guided when a known solution exists and only direction is needed, to self-serve when the system fully covers the work. Nothing ever has to prove it belongs with its owner - only delegation must be earned.
+
+## Assigned, guided, self-serve
+
+A path answers exactly two operational questions: who executes the production work, and when the owning team engages.
+
+<FigureDelegationLadder caption="Fig. 3 - From the default outward: delegation moves execution to the ticket holder, and the owner's engagement point later. No path removes the review." />
+
+| | Assigned | Guided | Self-serve |
+| --- | --- | --- | --- |
+| The work is | Genuinely new - a new feature, flow, or pattern - or the owner's own discipline work | An established solution, applied in a new context | Inside established patterns - small, bounded, already solved |
+| Executed by | The owning specialist team | The ticket holder, on direction agreed with the owning team | The ticket holder |
+| Owner engages | From day one - discovery through execution | Before work starts - a direction-setting consultation - and again at review | At review, before ship |
+| AI's role | Accelerates the specialists | Executes under the agreed direction | Executes end-to-end within approved skills |
+
+Assigned is not an exception path - it is the usual one. Pure single-function work is shrinking: even early exploration now runs on real components and real code from day one, so most substantial work carries cross-function aspects - and their natural, safest route is execution by the owner. When the originator is the owner - an engineer's backend refactor, a designer's Figma iteration - assigned is simply normal work: the framework adds zero ceremony, and it must stay that cheap.
+
+One invariant sits under all three paths, and it is the reason the model works at all:
+
+> Ownership never moves. Design decisions belong to Product Design, business requirements to PM, code and functionality to Engineering - on every path, for every ticket, with no exceptions. Paths distribute execution: who produces the artifact, and when the owner engages. They never distribute ownership or accountability - which is precisely why a non-specialist can be allowed to execute at all.
+
+Operationally, review is the instrument of that invariant: every user-facing change passes design review and approval, and every code change passes engineering review, before production - on every path, including self-serve. Review depth can scale with the path; its existence cannot, because approval is how the owning team exercises the accountability it never gave away.
+
+## One ladder, three directions
+
+The same three steps instantiate per direction: into design, into code, and into definition. Each direction reads the same way - what qualifies an aspect for a path, and how the work runs on it.
+
+**Into design** - an engineer or PM holds a ticket that includes design work:
+
+| Path | What qualifies | How it runs |
+| --- | --- | --- |
+| Assigned | New functionality; novel interaction patterns; changes to core user behavior or mental models; high-stakes flows | UX executes the design and is involved from day one; the engineer or PM stays a partner - feasibility, prototype input, technical constraints |
+| Guided | A known solution, new in this context: a standard component new to this product area, or existing components rearranged inside an existing flow | A consultation first sets direction, pattern choice, and the states to cover; the consulted specialist is the named design reviewer |
+| Self-serve | A small element or a minor modification inside an existing component, on a documented pattern already applied in this context, with every state - default, empty, loading, error, disabled - already defined | Design-system-aware generation only - library components and tokens, nothing hand-invented; no prior consultation; formal design review before ship |
+
+Pull-back triggers - any of these steps the work back a level, self-serve to guided, guided to assigned:
+
+- The library doesn't have the component or pattern you need. This is the quiet-mismatch scenario: generation produces something that looks close and lives until someone pays attention. A missing piece is a boundary, not an invitation to improvise.
+- The pattern doesn't define what empty, error, or loading looks like here.
+- The change alters what users expect or understand - navigation, terminology, the object model, workflow order.
+
+**Into code** - a designer or PM holds a ticket that involves changes directly in the product frontend:
+
+| Path | What qualifies | How it runs |
+| --- | --- | --- |
+| Assigned | A new capability or workflow; backend, API, or data work; cross-module changes; architectural decisions | Engineering executes end-to-end; each discipline runs at AI speed inside its own lane |
+| Guided | Changes that could affect how something works: component logic, event handling, local state, edits to functional shared components | The implementation approach is agreed with the responsible engineering team first; behavior-affecting changes go behind a feature flag; the consulted engineer is the named code reviewer |
+| Self-serve | Presentation layer only: CSS, spacing, typography, copy, token-level styling adjustments - the diff never leaves the styling layer | The same harness engineers use - branch, merge request, CI gates - and tokens, never raw values; code review before production |
+
+Pull-back triggers, mirrored:
+
+- The diff unexpectedly leaves the styling layer - or a test you didn't touch goes red.
+- An API, data, or dependency question appears mid-work.
+- The change touches a shared component used beyond your surface.
+- A proposed new dependency or configuration change - engineering approval required, regardless of path.
+
+**Into definition** - the executing team produces the requirements:
+
+| Path | What qualifies | How it runs |
+| --- | --- | --- |
+| Assigned | A new capability or epic; strategic bets; anything with rollout, pricing, or compliance implications | The PM authors the full definition, with UX and Engineering as partners from the start |
+| Guided | Intent is already clear - a roadmap item, a known enhancement - but behavior, edge cases, and acceptance still need writing down | The executing team drafts the spec with AI; the PM sets intent, scope boundaries, and acceptance up front, and approves the definition before development starts |
+| Self-serve | The ticket is the definition: a bug with a reproduction - the repro is the contract - or a small patterned change whose scope is self-evident | A plain ticket description by whoever holds it; the PM engages at triage and acceptance - a routed decision, not an omission |
+
+One pull-back covers the whole direction: the moment a contract, a scope boundary, or an acceptance criterion changes mid-work, the definition steps back a level - written down and PM-approved before the work continues.
+
+## The prototype fence
+
+One artifact class deliberately lives outside the routing: prototypes and concepts. Free-form creation is not just tolerated but encouraged - by anyone, at any time. The fence is on the exit: a prototype is never promoted to production. A prototype is another way to describe a concept, not to implement it. Learnings graduate into routed, reviewed work; the artifact itself is re-implemented through the framework. Intent is the boundary - the moment an artifact is meant for production, it enters the routing.
+
+Prototypes should still be built from library components where possible - not for governance, but because a prototype grounded in real components is dramatically cheaper to graduate. And free doesn't mean unguided: even for a prototype, the guided move - a short consultation with the owning team early in the build - is often the better deal. For the price of one conversation, the prototype heads in a direction that holds up as it evolves, instead of accumulating decisions it will have to shed at adaptation.
+
+## The rules that hold on every path
+
+Paths vary who executes and when the owner engages. Beyond the ownership invariant above, five rules never vary - they are the constraint half of [enable-and-constrain](/leadership/design-with-ai/), and the model fails without any one of them.
+
+1. **Produce only through the shared system.** Cross-function production happens through approved skills and the harness - library components and tokens for design output; branch, merge request, and CI gates for code. Freehand production outside the system is what turns a junior-with-AI into a liability.
+2. **Delegation carries its label.** No one works across a boundary without the label that says so. An unlabeled delegation is unreviewed risk: it shouldn't ship.
+3. **Ambiguity costs a level.** If a gate answer isn't a clear yes, the step isn't granted - the aspect stays one level closer to its owner; doubt that appears mid-work pulls it back a level the same way. A path too heavy costs a conversation; a path too light costs a rebuild - or a regression in production.
+4. **The owner can re-route.** Correcting a label at consultation or review is a normal correction, not a conflict - and repeated corrections become new gate criteria and new skill rules.
+5. **A missing piece is a boundary.** If the component library lacks the part, the pattern doesn't define the state, or the API contract doesn't exist - stop. The gap goes into the owning team's queue; it is never improvised around.
+
+## Operating the model
+
+The paths are only as wide as the system underneath them. With a shared component library live in code, self-serve visual work is possible on day one. As design-system-aware generation matures, more guided work becomes routine - and as pattern knowledge gets encoded into skills, whole classes of guided work route to self-serve. Routing is not static: every pattern the design team encodes and every rule engineering adds to the harness moves work outward. That is the compounding payoff of investing in the system rather than in one-off output.
+
+What to measure - at team level only, never per individual:
+
+- **Distribution of cross-function work across paths.** Healthy adoption shows self-serve growing as the system deepens.
+- **Re-routing rate.** High means the criteria or triage are off; near-zero probably means nobody is checking.
+- **Rework-after-review rate.** The core quality signal: delegated work that routinely gets rebuilt in review is misrouted work.
+- **Cycle time by path, against the pre-model baseline.** The speed claim must be verified, not assumed.
+- **Review load per discipline.** The throughput ceiling - the bottleneck to watch below.
+
+And the failure modes are predictable enough to watch for by name:
+
+| Failure mode | What it looks like | Countermeasure |
+| --- | --- | --- |
+| Downward creep | Labels quietly set one step too light; "it's just a small change" becomes culture | The owner's re-routing authority, the rework metric, an examples library kept current |
+| Review bottleneck | Distributed production multiplies review demand on the same senior reviewers; queues grow - or review gets shallow | Track review load; cap concurrent cross-function work in progress |
+| Shadow production | Cross-function changes made outside tickets and labels - invisible until they break | An unlabeled delegation doesn't ship; CI enforcement where possible; the label audit trail |
+| Stale patterns | Self-serve work confidently scales outdated patterns across the product - consistency of the wrong thing | Pattern freshness as a design-team duty: deprecated patterns are marked in libraries and skills, and demote related work to guided |
+| Illusion of automation | "The tool made it look right" replaces judgment; consultation starts to feel like bureaucracy | Held by leadership or not at all: the paths are the deal that makes distributed production possible |
+
+---
+
+The shared loop is, at bottom, a trade. The function teams give up exclusivity over execution: anyone can now produce in their domain, through their system. What they get back is stronger than what they gave away - the system itself enforcing their standards on every artifact, engagement at exactly the moments where expertise changes the outcome, and a review no path removes. The executors gain speed without inheriting risk they can't see; the owners gain reach without lowering the bar.
+
+The trade doesn't hold on autopilot. Gates hold while triage takes them seriously; patterns stay trustworthy while the design team keeps them fresh; review keeps its depth while leadership refuses to let it thin out under volume. That is the real cost of adoption - not the tooling, most of which already exists, but the discipline to keep the constraint half of the model as alive as the enabling half.
+
+And that is also what the model pays back if it holds: the discipline-level gains stop dying in the queues between the roles, and the organization's multiplier starts climbing toward what the disciplines are individually capable of. Speed stops being something teams achieve despite the process.
+
+Production can become distributed. Ownership cannot. Everything above exists to make that sentence operational - not to slow anyone down, but to make speed safe to keep.
+
+If you're building a similar model - or watching one fail - I'd be glad to compare notes: [victor.kaidan@gmail.com](mailto:victor.kaidan@gmail.com).

@@ -1,0 +1,180 @@
+---
+// Fig. 2 for the Shared Loop article: one ticket, three aspects, each routed
+// independently by its own path label - including the explicit zero (none).
+// Transparent background; palette follows the source document's figures
+// (navy / teal / amber / lime) and adapts to the dark theme via CSS variables.
+interface Props {
+    caption?: string;
+}
+const { caption } = Astro.props;
+---
+
+<figure class="sl-figure">
+    <svg viewBox="0 0 760 292" role="img" aria-label="Diagram: a ticket carries up to three path labels - design-path, code-path, and def-path. Each routes its aspect independently to none, assigned, guided, or self-serve; assigned is the default, and the definition aspect has no none.">
+        <defs>
+            <marker id="ta-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path class="mk-ink" d="M 0 1 L 8 5 L 0 9" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            </marker>
+        </defs>
+
+        <!-- column headers -->
+        <text x="308" y="38" text-anchor="middle" class="sl-label">OWNS THE ASPECT</text>
+        <text x="432" y="38" text-anchor="middle" class="sl-label">NONE</text>
+        <text x="524" y="38" text-anchor="middle" class="sl-label">ASSIGNED</text>
+        <text x="524" y="52" text-anchor="middle" class="sl-label-sub">DEFAULT</text>
+        <text x="622" y="38" text-anchor="middle" class="sl-label">GUIDED</text>
+        <text x="706" y="38" text-anchor="middle" class="sl-label">SELF-SERVE</text>
+
+        <!-- ticket card -->
+        <rect class="bx-card" x="28" y="58" width="176" height="200" rx="12" stroke-width="1.5"></rect>
+        <text x="116" y="88" text-anchor="middle" class="sl-box-title">TICKET</text>
+
+        <!-- chips -->
+        <rect class="bx-chip" x="52" y="104" width="128" height="26" rx="13" stroke-width="1.2"></rect>
+        <text x="116" y="121" text-anchor="middle" class="sl-chip">design-path</text>
+
+        <rect class="bx-chip" x="52" y="152" width="128" height="26" rx="13" stroke-width="1.2"></rect>
+        <text x="116" y="169" text-anchor="middle" class="sl-chip">code-path</text>
+
+        <rect class="bx-chip" x="52" y="200" width="128" height="26" rx="13" stroke-width="1.2"></rect>
+        <text x="116" y="217" text-anchor="middle" class="sl-chip">def-path</text>
+
+        <!-- design lane, y = 117 -->
+        <line class="ln-ink" x1="188" y1="117" x2="220" y2="117" stroke-width="1.4" marker-end="url(#ta-arrow)"></line>
+        <text x="308" y="121" text-anchor="middle" class="sl-owner">Product Design</text>
+        <line class="ln-lane" x1="440" y1="117" x2="706" y2="117" stroke-width="1"></line>
+        <circle class="c-none" cx="432" cy="117" r="7.5" stroke-width="1.4" stroke-dasharray="3 3"></circle>
+        <circle class="c-assigned" cx="524" cy="117" r="7.5"></circle>
+        <circle class="c-guided" cx="622" cy="117" r="7.5" stroke-width="1.6"></circle>
+        <circle class="c-self" cx="706" cy="117" r="7.5" stroke-width="1.6"></circle>
+
+        <!-- code lane, y = 165 -->
+        <line class="ln-ink" x1="188" y1="165" x2="220" y2="165" stroke-width="1.4" marker-end="url(#ta-arrow)"></line>
+        <text x="308" y="169" text-anchor="middle" class="sl-owner">Engineering</text>
+        <line class="ln-lane" x1="440" y1="165" x2="706" y2="165" stroke-width="1"></line>
+        <circle class="c-none" cx="432" cy="165" r="7.5" stroke-width="1.4" stroke-dasharray="3 3"></circle>
+        <circle class="c-assigned" cx="524" cy="165" r="7.5"></circle>
+        <circle class="c-guided" cx="622" cy="165" r="7.5" stroke-width="1.6"></circle>
+        <circle class="c-self" cx="706" cy="165" r="7.5" stroke-width="1.6"></circle>
+
+        <!-- definition lane, y = 213 (no zero: a ticket cannot lack a definition) -->
+        <line class="ln-ink" x1="188" y1="213" x2="220" y2="213" stroke-width="1.4" marker-end="url(#ta-arrow)"></line>
+        <text x="308" y="217" text-anchor="middle" class="sl-owner">PM</text>
+        <text x="432" y="218" text-anchor="middle" class="sl-na">—</text>
+        <line class="ln-lane" x1="524" y1="213" x2="706" y2="213" stroke-width="1"></line>
+        <circle class="c-assigned" cx="524" cy="213" r="7.5"></circle>
+        <circle class="c-guided" cx="622" cy="213" r="7.5" stroke-width="1.6"></circle>
+        <circle class="c-self" cx="706" cy="213" r="7.5" stroke-width="1.6"></circle>
+
+        <!-- footnote -->
+        <text x="380" y="278" text-anchor="middle" class="sl-note">an absent label = assigned · none declares the aspect missing · the definition aspect has no none</text>
+    </svg>
+    {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+    .sl-figure {
+        margin: 2.5rem 0;
+        --ink: #0e1b26;
+        --ink-soft: #33475a;
+        --ink-faint: #7a8b99;
+        --fill-assigned: #e9eff3;
+        --fill-guided: #fbf3e3;
+        --fill-self: #e7f7f8;
+        --fill-chip: #ffffff;
+        --teal: #1fa7b0;
+        --amber: #dd9426;
+    }
+    :global(html.dark) .sl-figure {
+        --ink: #e6ecf0;
+        --ink-soft: #a9b6c2;
+        --ink-faint: #7d8b98;
+        --fill-assigned: #212f3b;
+        --fill-guided: #33291a;
+        --fill-self: #14333a;
+        --fill-chip: #101c26;
+    }
+    .sl-figure svg {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    .sl-figure text {
+        font-family: 'Inter Variable', sans-serif;
+        fill: var(--ink);
+    }
+    .sl-label {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        fill: var(--ink-faint);
+    }
+    .sl-label-sub {
+        font-size: 8.5px;
+        font-weight: 500;
+        letter-spacing: 1.5px;
+        fill: var(--ink-faint);
+        opacity: 0.8;
+    }
+    .sl-box-title {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+    }
+    .sl-chip {
+        font-size: 11px;
+        font-weight: 600;
+    }
+    .sl-owner {
+        font-size: 12px;
+        font-weight: 500;
+    }
+    .sl-na {
+        font-size: 12px;
+        fill: var(--ink-faint);
+    }
+    .sl-note {
+        font-size: 11px;
+        fill: var(--ink-soft);
+        opacity: 0.85;
+    }
+    .mk-ink {
+        stroke: var(--ink);
+    }
+    .ln-ink {
+        stroke: var(--ink);
+    }
+    .ln-lane {
+        stroke: var(--ink-soft);
+        opacity: 0.3;
+    }
+    .bx-card {
+        fill: var(--fill-assigned);
+        stroke: var(--ink);
+    }
+    .bx-chip {
+        fill: var(--fill-chip);
+        stroke: var(--ink);
+    }
+    .c-none {
+        fill: none;
+        stroke: var(--ink-faint);
+    }
+    .c-assigned {
+        fill: var(--ink);
+    }
+    .c-guided {
+        fill: var(--fill-guided);
+        stroke: var(--amber);
+    }
+    .c-self {
+        fill: var(--fill-self);
+        stroke: var(--teal);
+    }
+    .sl-figure figcaption {
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+        opacity: 0.7;
+        text-align: center;
+    }
+</style>
