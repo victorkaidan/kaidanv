@@ -1,0 +1,216 @@
+---
+title: "Sisense Forge"
+description: "A developer-first product line for embedded analytics | 2023"
+publishDate: "2023-09-01"
+isFeatured: true
+draft: false
+seo:
+  image:
+    src: "/uploads/2023/forge/forge-cover.jpg"
+    alt: "Sisense Forge - data model canvas"
+---
+
+import AutoVideo from '../../components/AutoVideo.astro';
+
+<img src="/uploads/2023/forge/forge-hero.jpg" alt="Forge model canvas" loading="lazy" />
+
+## Overview
+
+Sisense sells embedded analytics - the dashboards and data experiences other companies put inside their own products. That business ran sales-led: long enterprise cycles, solution architects, a platform built around BI teams.
+
+"Forge" was a bet on a different motion - a separate product line for developer teams, adopted self-serve, and Sisense's first attempt at product-led growth. It paired with Compose SDK, Sisense's embedding SDK: Forge was the console where you connect a source, model it, and compose queries, and its output was code you paste into your own application.
+
+<span style="font-weight: 600; color: #000;">Status:</span> shut down before launch - a business call about time and resources, taken when the design was largely complete and validated with design partners. "Forge" was an internal codename; the product never got a public one.
+
+## Audience
+
+Development teams inside customer product organizations - not BI analysts. In practice, several roles at once:
+
+<ul>
+ 	<li><span style="font-weight: 600;">Frontend or full-stack engineers</span> embedding visualizations into a product UI</li>
+ 	<li><span style="font-weight: 600;">Data engineers</span>, where a team has them, connecting and preparing sources</li>
+ 	<li><span style="font-weight: 600;">Product teams</span> defining product logic and preparing sample assets</li>
+</ul>
+
+The finding that shaped the product most concerned environment rather than functionality: the main persona lives in an IDE and judges any unfamiliar tool against that reference - which set the terms for everything below.
+
+## Challenge
+
+Self-serve adoption puts the whole burden on the first session. We designed against three measures - time to connected data, time to first query, time to first chart - targeting value within five minutes, legible without anyone narrating it.
+
+The structural difficulty: embedded analytics has an irreducible middle step. Before anyone can query, someone has to model the data. A sales-led motion absorbs that through solution architects; a self-serve motion drops it on a team that may have no data specialist at all.
+
+## My Role
+
+As Director of Product Design I owned the design side of the line and sat on the steering committee running it, contributing to the PLG strategy alongside product and engineering leadership. A significant share of the work I did hands-on:
+
+<ul>
+ 	<li>the design system - color, layout language, visual direction</li>
+ 	<li>the information architecture - navigation, page nesting, the elements the product is built from, and how flows are staged</li>
+ 	<li>several areas and components designed end to end</li>
+</ul>
+
+## Collaborators
+
+<ul>
+ 	<li>Product directors and the PMs owning each area</li>
+ 	<li>Engineering directors and their teams</li>
+ 	<li>Community, outbound, and product marketing - DevRel and growth</li>
+</ul>
+
+## Constraints
+
+<ul>
+ 	<li><span style="font-weight: 600;">A mature platform.</span> The Sisense codebase needed substantial modernization in its own right.</li>
+ 	<li><span style="font-weight: 600;">No self-serve infrastructure.</span> A parallel move to SaaS infrastructure was underway to create it.</li>
+ 	<li><span style="font-weight: 600;">Fixed timeline, limited resources.</span></li>
+</ul>
+
+## Design Process
+
+Three stages:
+
+<ol>
+ 	<li><span style="font-weight: 600;">Research and positioning</span> - mapping how analytics actually gets built, understanding what is specific to the main persona, then redefining that knowledge around the PLG motion</li>
+ 	<li><span style="font-weight: 600;">Design system and happy path</span>, developed in parallel</li>
+ 	<li><span style="font-weight: 600;">Depth by area</span> - Connections, Modeling, Query</li>
+</ol>
+
+<h3 class="step-number">1a</h3>
+
+### Research: how analytics actually gets built
+
+We started by mapping the existing product against observed user behavior - every role, action, and the effect each action was supposed to produce.
+
+Two findings shaped everything after. Analytics work was distributed across four distinct roles, with long chains of actions separating an intent from its result. And the embedding step - the one a developer cares about most - was the least defined part of the map.
+
+<img src="/uploads/2023/forge/forge-roles-map.jpg" alt="Functional map of BI user roles - actions, desirable effects, and goals across data and analytics" loading="lazy" />
+
+We then redrew the process around the teams that do the work rather than the roles the platform assumed: what happens in the customer's warehouse, what happens in Sisense, what happens in the IDE, and what reaches the end user. The touchpoints listed under each stage became the functional scope of the product line.
+
+<img src="/uploads/2023/forge/forge-customer-journey.jpg" alt="Customer data journey redefined across warehouse, Sisense, IDE, and the customer's own product" loading="lazy" />
+
+<h3 class="step-number">1b</h3>
+
+### Designing the PLG motion
+
+Self-serve adoption is a sequence of questions, and each one has to be answered by a surface the company actually owns. We modeled the developer's path as five stages, defined by the question being asked at each: is this of use to me, will it meet my needs, how does it work, can I build a proof of concept, can I build for scale.
+
+<img src="/uploads/2023/forge/forge-plg-journey-map.jpg" alt="Developer journey map - discover, evaluate, explore, build, scale" loading="lazy" />
+
+<img src="/uploads/2023/forge/forge-plg-success-story.jpg" alt="Narrative of a successful developer journey from discovery through evaluation" loading="lazy" />
+
+From that path we derived what the product had to ship with, grouped by the job each component does - onboarding, self-service, functionality, and time to value.
+
+<img src="/uploads/2023/forge/forge-plg-components.jpg" alt="Necessary components of the standard product, grouped by onboarding, self-service, functionality, and time to value" loading="lazy" />
+
+The strategy then resolved into a concrete product flow. Its defining decision: two entry paths stay open at all times - sample data and your own data - so a first result never depends on completing a connection.
+
+<img src="/uploads/2023/forge/forge-plg-user-flow.jpg" alt="PLG product user flow from registration to a first visualization and generated code" loading="lazy" />
+
+<h3 class="step-number">2a</h3>
+
+### The design system
+
+Built on the existing Sisense platform so components could be shared and both design and implementation could move faster - but with a new architecture underneath: design tokens and variables driving the theme. A step forward from what the platform had.
+
+To let the main persona feel at home, the interface follows IDE conventions - editor-and-preview panes, code exposed wherever code exists. The dark theme was a product decision rather than a stylistic one, taken for the same reason.
+
+<img src="/uploads/2023/forge/forge-ds-foundations.jpg" alt="Design system foundations - color, spacing, typography, naming convention" loading="lazy" />
+
+<img src="/uploads/2023/forge/forge-ds-components.jpg" alt="Design system components - dialogs, tables, notifications, assistant states" loading="lazy" />
+
+<span style="font-weight: 600;">Work area layout.</span> Every work area shares one anatomy, taken from IDE conventions and validated against real content: editor pane, live preview, generated output. The organizing principle is user control - panes resize, collapse, and switch, so one anatomy serves areas whose content differs.
+
+<img src="/uploads/2023/forge/forge-work-area-anatomy.jpg" alt="Work area anatomy - editor, preview, and code output panes" loading="lazy" />
+
+<h3 class="step-number">2b</h3>
+
+### The happy path
+
+In parallel we built one end-to-end path - connect, model, query, take the code - as the spine the individual areas hang from. It served to understand the flow as a whole, to validate it with design partners, and to demonstrate it to stakeholders; the validation that mattered came from the partners, not the room. The prototype appears at the end of this case, since it reached its final form only after every area below was designed.
+
+<h3 class="step-number">3a</h3>
+
+### Connections
+
+Getting data in is the first place a self-serve user can stall. The connection list carries state - what is connected, what depends on it - so the next step stays visible from wherever you are.
+
+<img src="/uploads/2023/forge/forge-connections.jpg" alt="Connections page with the data source picker" loading="lazy" />
+
+<h3 class="step-number">3b</h3>
+
+### Three views of one model
+
+The starting hypothesis was that developers want to see the code behind anything they work with, and to edit it. A model is therefore a code artifact, with the diagram and the table as equal views of it - not simplified alternatives for people who cannot read code.
+
+Testing qualified that hypothesis. Even among developers, participants reached for the visual view to understand a model's structure: direct manipulation and spatial layout conveyed it faster than a definition file did. The same held for charts. Parity stopped being a concession and became the design position - not code-first with a visual fallback, but three views the user moves between depending on the task.
+
+<AutoVideo
+    src="/uploads/2023/forge/forge-model-views.mp4"
+    poster="/uploads/2023/forge/forge-model-views-poster.jpg"
+    alt="One model shown as a diagram, as a table, and as editable code"
+    caption="One model, three equal views - diagram, table, code"
+/>
+
+<h3 class="step-number">3c</h3>
+
+### Modeling with assistance
+
+Modeling is the step a developer team cannot skip and often is not equipped for. I had argued for automated modeling as a core capability before Forge existed; here it had a specific job - removing the one prerequisite that would otherwise stop a self-serve user cold.
+
+The assistant scans the tables and proposes the relationships between them. It does not apply them: each one is listed, expandable to the key level, and confirmed or rejected by the user. Two reasons for keeping that decision with the user:
+
+<ul>
+ 	<li><span style="font-weight: 600;">Reliability.</span> Inference was not dependable enough on tangled data stacks to apply silently.</li>
+ 	<li><span style="font-weight: 600;">Trust.</span> A system that rewrites the structure of your data without showing its work does not earn trust - it spends it.</li>
+</ul>
+
+<img src="/uploads/2023/forge/forge-model-assistant.jpg" alt="Model Assistant proposing table relationships for confirmation" loading="lazy" />
+
+<h3 class="step-number">3d</h3>
+
+### Query and output
+
+The output is the deliverable - a Compose SDK snippet ready to paste into a React application. A query assistant turns a plain-language question into a query, so a first result is reachable before anyone has learned the syntax.
+
+<img src="/uploads/2023/forge/forge-query-assistant.jpg" alt="Query editor with the query assistant, chart preview, and generated React code" loading="lazy" />
+
+<h3 class="step-number">3e</h3>
+
+### What we changed
+
+Two areas took substantial iteration.
+
+<span style="font-weight: 600;">Connecting data to modeling.</span> This seam had never worked well in the main Sisense platform. We designed several ways of joining the two flows, tested them, and selected the one participants completed most reliably - not the one that was structurally tidiest.
+
+<span style="font-weight: 600;">The query editor.</span> Design partners initially reported that the information they needed was not where we had put it. Several rounds of deciding what belongs in the editor, in the preview, and in the output produced the final arrangement.
+
+The prototype below is where those decisions landed - the happy path as it stood when the project closed.
+
+<AutoVideo
+    src="/uploads/2023/forge/forge-01-add-data.mp4"
+    poster="/uploads/2023/forge/forge-01-add-data-poster.jpg"
+    alt="Prototype: choosing a data source and configuring a connection"
+    caption="1 - connecting a data source"
+/>
+
+<AutoVideo
+    src="/uploads/2023/forge/forge-02-model-data.mp4"
+    poster="/uploads/2023/forge/forge-02-model-data-poster.jpg"
+    alt="Prototype: importing tables and building a model with the assistant"
+    caption="2 - importing tables and modeling them"
+/>
+
+<AutoVideo
+    src="/uploads/2023/forge/forge-03-query-output.mp4"
+    poster="/uploads/2023/forge/forge-03-query-output-poster.jpg"
+    alt="Prototype: composing a query, previewing a chart, and copying the generated code"
+    caption="3 - query, preview, and the code that comes out"
+/>
+
+## Outcome
+
+Forge never launched publicly, so there are no adoption numbers. What we have is the design partner assessment: measured against the existing product, Forge was faster to get value from and materially clearer to work through unassisted - which was the premise of the line.
+
+For me this was the project that turned PLG from a tactic into a system: how self-serve adoption, developer expectations, and product architecture constrain one another, and how much of the growth motion is decided inside the first session with the product. It remains one of the projects I think about most - my practical introduction to PLG, and invaluable for the work I have done in that direction since.

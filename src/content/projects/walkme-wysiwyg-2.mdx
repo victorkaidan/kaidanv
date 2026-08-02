@@ -7,110 +7,166 @@ draft: false
 seo:
   image:
     src: "/uploads/2019/12/WM-Cover-hp.png"
-    alt: "WM-Cover-hp"
+    alt: "WalkMe Visual Editor - mobile WYSIWYG"
 ---
-<img src="/uploads/2019/12/walkme_cover-2.png" alt="walkme_cover" loading="lazy" />
+<img src="/uploads/2019/12/walkme_cover-2.png" alt="WalkMe Visual Editor" loading="lazy" />
 
-### Overview
+## Overview
 
-WalkMe provides its clients with an adoption layer integrated on top of their applications for rapid onboarding and user empowerment.
+WalkMe builds an adoption layer that sits on top of a customer's application - onboarding flows, guidance, shoutouts, surveys - added without touching the host app's code.
 
-I led the creation of a WYSIWYG (What-You-See-Is-What-You-Get) design tool, enabling customers to easily create engaging shoutouts, surveys, and guidance modules without needing coding skills.
+The mobile version of that layer needed an editor. A customer had to design an artifact, place it over their own app, and have it render correctly on whatever device it landed on.
 
-### Users
+The old editor barely managed the first part. Its control over placement and behavior was limited, and the problems were as much functional as they were UX.
 
-Our primary audience spanned various industries, aiming to boost user adoption on mobile apps. Users ranged from basic to advanced technical and design skills, necessitating a versatile and intuitive design platform.
+I led the design of its replacement - a WYSIWYG tool giving non-designers direct visual control over how an artifact looks and, more importantly, how it behaves across screen sizes.
 
-### Main Challenge
+#### The old editor
 
-The old editor had very limited capabilities of designiing artifacts. We needed to create a user-friendly tool that offered flexibility and rich functionality, accommodating users with varying levels of familiarity with such tools.
+<img src="/uploads/2019/12/oldWYSIWYGBP2_9-1-19-1.png" alt="The previous editor - fixed canvas with absolute pixel coordinates" loading="lazy" />
 
-##### The old WYSIWYG
+## Audience
 
-<img src="/uploads/2019/12/oldWYSIWYGBP2_9-1-19-1.png" alt="Old WYSIWYG design" loading="lazy" />
+The people building these artifacts were rarely designers. In most companies it was a product manager; larger organizations investing in adoption had dedicated digital adoption managers; sometimes a marketer or an in-house designer.
 
-### My Role
+Product managers were the primary persona, and that set the terms for the product. They know their own product deeply and design tools barely at all.
 
-As Principal Designer of the project, I managed the entire design process from concept to implementation. I focused on understanding user needs and creating an intuitive interface and seamless interaction patterns, ensuring a smooth user experience and strategic feature development.
+So every control had to be readable to someone who had never opened one, and predictable enough to be trusted without checking the result on ten devices.
 
-### Collaboration
+## Challenge
 
-I worked closely with the Mobile Product Manager and the Mobile R&D team, including developers and QA. Our teamwork enabled iterative design and usability testing, turning our vision into reality and refining the product continuously.
+An artifact designed once has to hold across the entire spread of mobile - iOS and Android, phones from small to large, tablets - and sit correctly over a host application the editor does not control.
 
-### Design Process
+That is a difficult promise for a WYSIWYG tool. "What you see is what you get" works when the output has one fixed size. Here it never does.
 
-<img src="/uploads/2019/12/WM_wysiwyg_dp.png" alt="WM_wysiwyg_dp" loading="lazy" />
+The design tools of the period were no help, because they solved a different problem. Sketch, Adobe XD, and early Figma were canvas tools: a design-trained user drew a mock-up, engineers rebuilt it in code.
 
-<h2 class="step-number">01</h2>
+Our customers needed the inverse. The output had to be the component itself, compiled for three platforms - and the person producing it did not compose layouts for a living.
 
-**Research**
+## My Role
 
-We began with a thorough analysis, collecting customer feedback, performing heuristic evaluations, and conducting competitor research. We also defined target personas through user research.
+As Principal Designer I owned the design end to end - and much of the product definition with it. I set a large share of the feature set in equal partnership with the mobile product manager, not from a spec handed to me.
 
-<h2 class="step-number">02</h2>
+That followed from what we were building. In a design tool, functionality *is* visual behavior - what an object can anchor to, how much control the user is given. Product and design decisions were the same decisions.
 
-**Problem Statement**
+## Collaborators
 
-We clarified user objectives, challenges with the old editor, and opportunities to improve.
+The mobile product manager, and the mobile R&D team - developers and QA. On this product the line between what was designable and what was buildable moved constantly, so design decisions were checked against implementation cost continuously rather than at handoff.
 
-<h2 class="step-number">03</h2>
+## Constraints
 
-**Ideation**
+<ul>
+ 	<li><span style="font-weight: 600;">One design, three codebases.</span> Every behavior had to be built for iOS, Android, and web, within what each platform allowed.</li>
+ 	<li><span style="font-weight: 600;">Feasibility.</span> Some controls were reshaped or dropped because the cost of building them outweighed what the feature returned.</li>
+ 	<li><span style="font-weight: 600;">Non-designer users.</span> The primary persona had no visual design background, which ruled out most conventions professional design tools rely on.</li>
+</ul>
 
-Brainstorming with the PM and UX director helped us develop solutions to identified problems.
+## Design Process
 
-<h2 class="step-number">04</h2>
+<img src="/uploads/2019/12/WM_wysiwyg_dp.png" alt="Design process map" loading="lazy" />
 
-**Concept Solution**
+The tool shipped in two versions, and the second came directly out of what the first one taught us: control and freedom are not the same thing as usability.
 
-We created and iterated on concept designs, validating them with the technical team.
+<h3 class="step-number">01</h3>
 
-<img src="/uploads/2019/12/ConceptDesigns.png" alt="ConceptDesigns" loading="lazy" />
+### Research and problem framing
 
-<h2 class="step-number">05</h2>
+We collected customer feedback on the old editor, ran heuristic evaluations, studied competing adoption platforms, and defined the personas through user research. The finding was consistent: its limits were not only in the interface but in what it was capable of producing at all.
 
-**UI Elements and Style**
+<h3 class="step-number">02</h3>
 
-Defining UI elements and the visual style ensured functionality, brand alignment, and design scalability.
+### Concept directions
 
-<img src="/uploads/2019/12/W5GStyles.png" alt="W5GStyles" loading="lazy" />
+We worked through layouts for the tool itself - how to divide the control areas, where the artifact preview sits, how the panels relate to one another and to the canvas.
 
-<img src="/uploads/2019/12/SizeSpecs.png" alt="SizeSpecs" loading="lazy" />
+<img src="/uploads/2019/12/ConceptDesigns.png" alt="Concept directions explored for the editor layout" loading="lazy" />
 
-<h2 class="step-number">06</h2>
+<h3 class="step-number">03</h3>
 
-**Feature Design, UX/UI**
+### UI elements and the design subsystem
 
-Divided into logical and architectural blocks (features), the WYSIWYG editor underwent numerous design cycles, from information architecture to detailed parameter controls, maximizing usability and functionality.
+WalkMe had a design system, but this product needed elements that did not exist in it: canvas controls, positioning inputs, object hierarchy, alignment tools. What we built amounted to a subsystem of its own - components, sizes, layout rules, and behavior specs.
 
-<img src="/uploads/2019/12/AutoLayout_principles.png" alt="AutoLayout_principles" loading="lazy" />
+<img src="/uploads/2019/12/W5GStyles.png" alt="UI styles - colors and component states across the top panel, left toolbar, and objects" loading="lazy" />
 
-<img src="/uploads/2019/12/AddObject_interactions.png" alt="AddObject_interactions" loading="lazy" />
+<h3 class="step-number">04</h3>
 
-<h2 class="step-number">07</h2>
+### Version one - control over behavior
 
-**Usability Testing**
+The first release kept absolute positioning: users placed objects freely on the canvas, as they had before. What changed was how much they could say about what happens afterwards.
 
-Each design went through rigorous usability testing. Feedback guided iterative refinements to eliminate pain points and enhance user satisfaction.
+Sizes could be set in pixels or percentages. An object could be anchored to one edge of the canvas or to several, sized fixed or flexible, scaled, stretched between two edges, or centered.
 
-<img src="/uploads/2019/12/PositionVariants.png" alt="PositionVariants" loading="lazy" />
+Together these turned a placement into a rule the renderer could apply on any screen - which is what made one artifact viable across the whole device spread.
 
-<h2 class="step-number">08</h2>
+No design tool of the period offered that combination, and none needed to: a mock-up never has to survive a device it was not drawn for. Ours did, on every device our customers' users happened to own.
 
-**Feature Development and Design QA**
+<img src="/uploads/2019/12/SizeSpecs.png" alt="Sizing rules - how an artifact maps from device dimensions to the rendered canvas" loading="lazy" />
 
-Approved designs moved into development, with continuous collaboration and QA to ensure the final product met the design vision. We balanced powerful design tool functionality with simplicity for less design-savvy users.
+<img src="/uploads/2019/12/TextEditing.png" alt="Inline text editing on the live preview" loading="lazy" />
 
-<img src="/uploads/2019/12/TextEditing.png" alt="TextEditing" loading="lazy" />
+It was received well: a large functional expansion over the old editor, and easier to operate despite doing considerably more.
 
-<img src="/uploads/2019/12/BaloonPositioning.png" alt="BaloonPositioning" loading="lazy" />
+<h3 class="step-number">05</h3>
 
-<img src="/uploads/2019/12/ElementSizing.png" alt="ElementSizing" loading="lazy" />
+### Version two - auto-layout
 
-<img src="/uploads/2019/12/ShoutOutPositioning.png" alt="ShoutOutPositioning" loading="lazy" />
+The first version then revealed a problem of its own making. That freedom served people who think structurally about layout; for everyone else it produced results that were harder to anticipate and often not what they had intended. Past a certain point, more control is just more cognitive load.
 
-### Outcome
+The second version introduced auto-layout: objects organized into rows and stacks, with spacing governed by rules instead of coordinates. It covered roughly 80-90% of what users actually did, and inside that range the outcome became predictable - far fewer ways to place something that would break on another screen.
 
-This project empowered users to create engaging content without coding and positioned WalkMe as a leader in no-code editing capabilities among all DAP tools. Despite being developed several years ago, its WYSIWYG Design tool remains unmatched in flexibility and functionality, surpassing competitors.
+Absolute positioning stayed. Advanced users kept working with it, as did anyone whose case auto-layout could not express. The two modes coexist; the second never replaced the first.
 
-It was particularly challenging in terms of designing within technical constraints and for diverse user types. It reinforced that even well-proven solutions might not always be the best, highlighting the importance of iterative design, user testing, and interdisciplinary collaboration - something I carry forward in my career.
+Stack-based layout was reaching mainstream design tools at roughly the same time. Ours had to carry more, because its output had to run rather than merely display - and because the person operating it was not a designer.
+
+<img src="/uploads/2019/12/AutoLayout_principles.png" alt="Layout architecture - stacks, rows, and spacing anatomy of a balloon" loading="lazy" />
+
+<h3 class="step-number">06</h3>
+
+### Adding objects to the canvas
+
+Getting an object onto the canvas received disproportionate attention, because that first action is where a non-designer forms their model of how the whole tool works.
+
+Objects could be added from the element panel or directly on the canvas, and the canvas showed where one would land before it was placed - hover zones divided each row and container, so both the drop position and the resulting behavior were visible in advance instead of discovered afterwards.
+
+<img src="/uploads/2019/12/AddObject_interactions.png" alt="Adding an object - placeholder indicators and hover zones that decide where it lands" loading="lazy" />
+
+<h3 class="step-number">07</h3>
+
+### What testing changed
+
+Nearly every control went through usability testing. Positioning controls were benchmarked against Sketch, Adobe XD, early Figma, and web page builders.
+
+Those tools assume a design-trained user, and several of their conventions failed with ours. Where that happened we chose the less graphical, more explicit option, which tested better every time.
+
+Two results are worth recording, because both went against a reasonable expectation.
+
+<span style="font-weight: 600;">The navigation panel.</span> We first used a dark side panel for section navigation, the prevailing convention then. It tested worse than a light one sharing the palette of the working area: in an integrated tool, the color break read as a boundary between two separate things, and it cost users sight of what the platform could do.
+
+<span style="font-weight: 600;">Positioning shortcuts.</span> The panel offered quick-action buttons for common placements, with a detailed interface underneath for everything else. Internal testing supported it; it held up through release.
+
+Real usage did not. Two routes to the same result were the source of the confusion, not a convenience. We removed the shortcuts, and comprehension and satisfaction rose more than we expected from taking capability away.
+
+<img src="/uploads/2019/12/PositionVariants.png" alt="Iterations of the size and position controls - relative, absolute, and custom anchoring" loading="lazy" />
+
+<h3 class="step-number">08</h3>
+
+### Development and design QA
+
+Approved designs went into implementation across the three platforms, each with its own design QA pass. The recurring judgment call was where to spend simplicity: the tool had to stay operable by a product manager while giving a designer enough room to build something exact.
+
+<img src="/uploads/2019/12/BaloonPositioning.png" alt="Positioning a balloon relative to an element in the host app" loading="lazy" />
+
+<img src="/uploads/2019/12/ElementSizing.png" alt="Element sizing and alignment controls" loading="lazy" />
+
+<img src="/uploads/2019/12/ShoutOutPositioning.png" alt="Positioning a shoutout within the host app screen" loading="lazy" />
+
+## Outcome
+
+The editor gave non-designers a level of control the category did not otherwise offer. Sales reported that prospects, shown it in demos, said no other vendor had an equivalent.
+
+Years later I checked from the other side. Evaluating adoption platforms as a buyer at Sisense, I tested WalkMe against several industry leaders. Its core had changed little since I left, and was still unmatched in flexibility.
+
+We were also early, though not by design. Major design tools reached comparable layout maturity about a year after we shipped; design-to-code took years longer. That came from necessity: our output had to run inside someone else's application, on devices we could not predict. Behavior control was not a refinement here, it was the requirement.
+
+The lesson was narrower than "test your work": a solution validated internally can still fail on contact with real users, and the failure is often not in any single control but in offering two routes to one result. Removing capability made the tool better.

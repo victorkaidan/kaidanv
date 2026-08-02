@@ -1,0 +1,93 @@
+---
+// Silent, chrome-less looping video for case studies. Renders like a GIF -
+// no player UI, no controls - but ships as H.264 MP4, which is an order of
+// magnitude lighter than an equivalent GIF.
+//
+// Playback is gated on visibility (IntersectionObserver) so off-screen clips
+// don't burn CPU or battery, and on `prefers-reduced-motion`, in which case
+// the clip does not autoplay and native controls are exposed instead so the
+// reader can start it deliberately.
+interface Props {
+    src: string;
+    poster?: string;
+    alt: string;
+    caption?: string;
+}
+const { src, poster, alt, caption } = Astro.props;
+---
+
+<figure class="auto-video">
+    <video
+        data-autovideo
+        src={src}
+        poster={poster}
+        aria-label={alt}
+        muted
+        loop
+        playsinline
+        preload="none"
+        disablepictureinpicture></video>
+    {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+    .auto-video {
+        margin: 2rem 0;
+    }
+    .auto-video video {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+    }
+    .auto-video figcaption {
+        font-size: 0.85rem;
+        text-align: center;
+        margin-top: 0.5rem;
+        opacity: 0.7;
+    }
+</style>
+
+<script>
+    // Bundled once by Astro no matter how many <AutoVideo> instances a page
+    // has. Re-runs on ClientRouter navigation so clips on the next page get
+    // observed too.
+    const w = window as Window & { __autoVideoObserver?: IntersectionObserver };
+
+    function setupAutoVideo() {
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const videos = document.querySelectorAll<HTMLVideoElement>('video[data-autovideo]');
+        if (!videos.length) return;
+
+        if (reduced) {
+            videos.forEach((v) => {
+                v.controls = true;
+                v.preload = 'metadata';
+            });
+            return;
+        }
+
+        w.__autoVideoObserver?.disconnect();
+        w.__autoVideoObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    const video = entry.target as HTMLVideoElement;
+                    if (entry.isIntersecting) {
+                        // play() rejects if the browser blocks autoplay; the
+                        // poster stays up, which is an acceptable fallback.
+                        void video.play().catch(() => {});
+                    } else {
+                        video.pause();
+                    }
+                });
+            },
+            { threshold: 0.35 }
+        );
+
+        videos.forEach((v) => w.__autoVideoObserver!.observe(v));
+    }
+
+    document.addEventListener('astro:after-swap', setupAutoVideo);
+    document.addEventListener('astro:page-load', setupAutoVideo);
+    setupAutoVideo();
+</script>

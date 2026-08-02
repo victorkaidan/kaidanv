@@ -105,8 +105,19 @@ html.dark {
 
     /* Step-number headings inside case studies (01, 02, 03, ...).
        Originally tagged with `.grayed-out` on the WordPress site — same idea:
-       a muted label that sits tight against the section subhead beneath it. */
-    .prose h2.step-number {
-        @apply opacity-30 mb-1 sm:mb-2;
+       a muted label that sits tight against the section subhead beneath it.
+       Tag-agnostic selector: case-study headings were shifted up a level
+       (sections h3 -> h2, sub-sections h5 -> h3) to match the Leadership
+       articles, which moved these from h2 to h3. */
+    .prose .step-number {
+        @apply opacity-30 mb-0;
+    }
+
+    /* The step title sits directly beneath its number, so the heading's own
+       top margin has to go — otherwise the gap is set by that margin (the
+       larger of the two collapses through) and the pair reads as two
+       separate headings rather than one unit. */
+    .prose .step-number + :is(h2, h3, h4) {
+        @apply mt-1 sm:mt-1.5;
     }
 }
