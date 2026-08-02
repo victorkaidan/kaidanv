@@ -3,10 +3,12 @@
 // no player UI, no controls - but ships as H.264 MP4, which is an order of
 // magnitude lighter than an equivalent GIF.
 //
-// Playback is gated on visibility (IntersectionObserver) so off-screen clips
-// don't burn CPU or battery, and on `prefers-reduced-motion`, in which case
-// the clip does not autoplay and native controls are exposed instead so the
-// reader can start it deliberately.
+// Playback is native: `autoplay muted loop playsinline` is what browsers
+// actually honour, and it works with JS disabled or still loading. The
+// script below only *pauses* clips that scroll out of view, and re-arms
+// playback if the browser refused the initial autoplay. Do not go back to
+// a JS-only `play()` with `preload="none"` - there is nothing buffered at
+// that moment, so the promise rejects and the poster stays up.
 interface Props {
     src: string;
     poster?: string;
@@ -22,10 +24,11 @@ const { src, poster, alt, caption } = Astro.props;
         src={src}
         poster={poster}
         aria-label={alt}
+        autoplay
         muted
         loop
         playsinline
-        preload="none"
+        preload="metadata"
         disablepictureinpicture></video>
     {caption && <figcaption>{caption}</figcaption>}
 </figure>
@@ -49,42 +52,60 @@ const { src, poster, alt, caption } = Astro.props;
 </style>
 
 <script>
-    // Bundled once by Astro no matter how many <AutoVideo> instances a page
-    // has. Re-runs on ClientRouter navigation so clips on the next page get
-    // observed too.
+    // Bundled once by Astro regardless of how many <AutoVideo> instances a
+    // page has. Re-runs on ClientRouter navigation.
     const w = window as Window & { __autoVideoObserver?: IntersectionObserver };
 
-    function setupAutoVideo() {
-        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const videos = document.querySelectorAll<HTMLVideoElement>('video[data-autovideo]');
-        if (!videos.length) return;
+    function videos() {
+        return Array.from(document.querySelectorAll<HTMLVideoElement>('video[data-autovideo]'));
+    }
 
-        if (reduced) {
-            videos.forEach((v) => {
+    function inViewport(v: HTMLVideoElement) {
+        const r = v.getBoundingClientRect();
+        return r.top < window.innerHeight && r.bottom > 0;
+    }
+
+    // Some browsers only honour autoplay when `muted` is set as a property,
+    // not merely as an attribute — set both.
+    function tryPlay(v: HTMLVideoElement) {
+        v.muted = true;
+        void v.play().catch(() => {});
+    }
+
+    function setupAutoVideo() {
+        const list = videos();
+        if (!list.length) return;
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            list.forEach((v) => {
+                v.autoplay = false;
                 v.controls = true;
-                v.preload = 'metadata';
+                v.pause();
             });
             return;
         }
+
+        list.forEach((v) => (v.muted = true));
 
         w.__autoVideoObserver?.disconnect();
         w.__autoVideoObserver = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
                     const video = entry.target as HTMLVideoElement;
-                    if (entry.isIntersecting) {
-                        // play() rejects if the browser blocks autoplay; the
-                        // poster stays up, which is an acceptable fallback.
-                        void video.play().catch(() => {});
-                    } else {
-                        video.pause();
-                    }
+                    if (entry.isIntersecting) tryPlay(video);
+                    else video.pause();
                 });
             },
-            { threshold: 0.35 }
+            { threshold: 0.2 }
         );
+        list.forEach((v) => w.__autoVideoObserver!.observe(v));
 
-        videos.forEach((v) => w.__autoVideoObserver!.observe(v));
+        // If the browser declined autoplay on load, the first interaction of
+        // any kind is enough of a user gesture to start the visible clips.
+        const rearm = () => videos().filter(inViewport).forEach(tryPlay);
+        ['pointerdown', 'touchstart', 'keydown', 'scroll', 'wheel'].forEach((evt) =>
+            window.addEventListener(evt, rearm, { once: true, passive: true })
+        );
     }
 
     document.addEventListener('astro:after-swap', setupAutoVideo);
