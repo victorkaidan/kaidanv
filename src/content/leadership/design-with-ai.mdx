@@ -8,9 +8,9 @@ seo:
   description: "AI as a working material inside the design process — what changes for research, design systems, and the handoff loop with Engineering."
 ---
 
-In 2026, AI is becoming a working material inside the design process - not a replacement for it. Below is the direction my team is moving: a roadmap, not a finished system. The shifts that matter aren't [only] in execution speed but in what gets produced, who consumes it, and how the team is organized around it. Humans and Figma are still very much in the game, even if the processes they are part of are changing fundamentally.
+In 2026, AI is becoming a working material inside the design process - not a replacement for it. Below is the direction I've been building toward with my team: a roadmap, not a finished system. The shifts that matter aren't [only] in execution speed but in what gets produced, who consumes it, and how the team is organized around it. Humans and Figma are still very much in the game, even if the processes they are part of are changing fundamentally.
 
-Three threads my team and I are working through right now: where the design system has to evolve, how research can scale beyond the team, and how the handoff loop with Engineering is changing shape in the new AI-era.
+Three threads I've been working through with my team: where the design system has to evolve, how research can scale beyond the team, and how the handoff loop with Engineering is changing shape in the new AI-era.
 
 ## Tooling becomes contextual, not central
 
@@ -24,9 +24,9 @@ It is tempting to assume that the barriers to executing this vision are primaril
 
 ## Research as a multiplier, not just an accelerator
 
-We haven't moved to specialized AI research platforms; in B2B - and particularly B2B2B - you especially value live interaction with participants and personal control over research sessions. Instead, AI runs across every stage of the existing process - from data collection and analysis to structuring findings. Cycle time shortens, as expected.
+We didn't move to specialized AI research platforms; in B2B - and particularly B2B2B - you especially value live interaction with participants and personal control over research sessions. Instead, AI runs across every stage of the existing process - from data collection and analysis to structuring findings. Cycle time shortens, as expected.
 
-The change that matters more is what happens to the *output*. The team is working toward centralizing research findings so they can be shared across the organization. These exist as Claude Projects where raw data, analyses, and conclusions are packaged together in a hierarchical structure - so anyone in the company can ask questions and get grounded answers, with reasoning trails back to source material. The UX team bridges the gap on topics that require domain expertise or a deep dive.
+The change that matters more is what happens to the *output*. The team was moving toward centralizing research findings so they could be shared across the organization. These live as Claude Projects where raw data, analyses, and conclusions are packaged together in a hierarchical structure - so anyone in the company can ask questions and get grounded answers, with reasoning trails back to source material. The UX team bridges the gap on topics that require domain expertise or a deep dive.
 
 The first-order effect is obvious - less time spent fielding questions the team would otherwise own. The second-order effect matters more: research-derived knowledge starts circulating beyond the teams adjacent to design - CS, sales, marketing, etc. giving them a single place to access valuable insights.
 
@@ -34,13 +34,13 @@ This approach doesn't solve, and shouldn't pretend to, the operational layer und
 
 ## From Design System to a Generative Frontend Engine
 
-The design system remains the cornerstone - and now, more than ever, it requires proper architectural organization as it scales into a much larger and more significant structure. This is our biggest in-progress project - generative processes built over the design system, in three connected layers - an approach many teams are only beginning to apply.
+The design system remains the cornerstone - and now, more than ever, it requires proper architectural organization as it scales into a much larger and more significant structure. This was the biggest in-progress build - generative processes over the design system, in three connected layers - an approach many teams are only beginning to apply.
 
 The first, foundational layer connects Figma to Storybook and a shared component library. Components are defined and produced by designers via a semi-automated generative workflow with minimal participation from the engineering team. The structure of styles and design rules transfers into the library, establishing a development-side source of truth that frontend implementation consumes directly.
 
 The second step is generation of entire designs, screens, and flows from a Figma source - with a strict constraint that every component used must come from the generated library, every UI property is tokenized. AI skills and instructions enforce this discipline. The process is set to speed up the development process and produce UI that's pre-bound to the system.
 
-The third piece, the one we're building toward, is encoding the platform's own best practices and patterns so generation can happen not just from Figma designs but from prompts authored by other teams. This is useful at the edges: brainstorming, concept work, quick implementation of small features or bug fixes that start inside Engineering or Product and then come to design for refinement.
+The third piece, the one still being built toward, is encoding the platform's own best practices and patterns so generation can happen not just from Figma designs but from prompts authored by other teams. This is useful at the edges: brainstorming, concept work, quick implementation of small features or bug fixes that start inside Engineering or Product and then come to design for refinement.
 
 This enables PMs and engineers to produce first-pass prototypes grounded in real components and patterns. It's not a path to universal automation, and it shouldn't be. For projects that require genuine UX rethinking, the product designer stays involved from the start, on the foundational decisions, before anything touches the system. For light tasks, this frees up designers to move faster.
 
