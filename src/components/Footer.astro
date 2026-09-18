@@ -12,7 +12,7 @@ const currentYear = new Date().getFullYear();
         navLinks.length > 0 && (
             <nav class="mb-4 flex flex-wrap gap-x-6 gap-y-1" aria-label="Footer navigation">
                 {navLinks.map((link) => (
-                    <NavLink class="font-serif hover:underline hover:underline-offset-2" href={link.href}>
+                    <NavLink class="text-sm hover:underline hover:underline-offset-2" href={link.href}>
                         {link.text}
                     </NavLink>
                 ))}

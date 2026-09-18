@@ -1,0 +1,28 @@
+---
+import { type CollectionEntry } from 'astro:content';
+import { leadershipHref } from '../utils/data-utils';
+
+// End-of-article pointer to the next Leadership piece in reading order. The
+// full list lives in LeadershipIndex at the top of the page; at the bottom the
+// reader needs one next step, not the whole list again.
+type Props = {
+    entry: CollectionEntry<'leadership'>;
+    class?: string;
+};
+
+const { entry, class: className } = Astro.props;
+const { title, subtitle, description } = entry.data;
+---
+
+<nav class:list={[className]} aria-label="Read next">
+    <h2 class="mb-4 text-sm font-medium opacity-60 sm:mb-6">Read next</h2>
+    <a class="group block" href={leadershipHref(entry.id)}>
+        <h3
+            class="font-serif text-xl leading-tight font-medium group-hover:underline group-hover:decoration-dashed group-hover:decoration-1 group-hover:underline-offset-4 sm:text-2xl"
+        >
+            {title}
+            {subtitle && ` - ${subtitle}`}
+        </h3>
+        {description && <p class="mt-1 text-sm leading-normal sm:mt-2 sm:text-base">{description}</p>}
+    </a>
+</nav>

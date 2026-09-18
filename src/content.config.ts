@@ -66,8 +66,16 @@ const leadership = defineCollection({
             title: z.string(),
             // Optional display subtitle: rendered under the H1 on the article
             // page in a smaller size, and appended to the title (" - subtitle")
-            // in listings and "More from Leadership" links.
+            // in the "Read next" link at the bottom of the previous article.
             subtitle: z.string().optional(),
+            // Optional short label for the section index at the top of every
+            // Leadership page. Kept to one line on a phone so the index doesn't
+            // push the article's H1 below the fold. Falls back to `title`.
+            navTitle: z.string().optional(),
+            // Optional line shown above the description when the entry is
+            // hovered in the section index - the part of the full title that
+            // the short navTitle leaves out (e.g. "From UI to Intelligence").
+            navSubtitle: z.string().optional(),
             description: z.string().optional(),
             publishDate: z.coerce.date(),
             isFeatured: z.boolean().default(false),

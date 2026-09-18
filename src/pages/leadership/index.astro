@@ -1,9 +1,11 @@
 ---
 import { getCollection, render } from 'astro:content';
+import LeadershipIndex from '../../components/LeadershipIndex.astro';
+import LeadershipReadNext from '../../components/LeadershipReadNext.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { sortItemsByDateDesc } from '../../utils/data-utils';
+import { getLeadershipNav } from '../../utils/data-utils';
 
-// The section entry page renders the `overview` entry. The two deep-dives are
+// The section entry page renders the `overview` entry. The deep-dives are
 // served by [id].astro.
 const allEntries = await getCollection('leadership');
 const overview = allEntries.find((entry) => entry.id === 'overview');
@@ -12,22 +14,7 @@ if (!overview) {
 }
 const { title, description, seo, draft } = overview.data;
 const { Content } = await render(overview);
-
-// Navigational list of deep-dives below the overview — the /projects/ listing
-// analog for this section. Drafts are hidden, matching projects listing semantics.
-// We pin an explicit reading order rather than rely on a date tie-break:
-// design-with-ai states the general problem and the enable-and-constrain
-// formula, shared-loop is the concrete operating model built on it, agentic
-// looks outward at the product level. Entries not listed here fall back to
-// date-desc and sort after the pinned ones.
-const DEEP_DIVE_ORDER = ['design-with-ai', 'shared-loop', 'agentic'];
-const orderRank = (id: string) => {
-    const i = DEEP_DIVE_ORDER.indexOf(id);
-    return i === -1 ? Infinity : i;
-};
-const deepDives = allEntries
-    .filter((entry) => entry.id !== 'overview' && !entry.data.draft)
-    .sort((a, b) => orderRank(a.id) - orderRank(b.id) || sortItemsByDateDesc(a, b));
+const { series, next } = getLeadershipNav(allEntries, overview.id);
 ---
 
 <BaseLayout
@@ -38,6 +25,7 @@ const deepDives = allEntries
     showHeader={false}
     noindex={draft}
 >
+    <LeadershipIndex series={series} currentId={overview.id} class="mb-10 sm:mb-16" />
     <article class="mb-16 sm:mb-24">
         <header class="mb-8">
             <h1 class="font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{title}</h1>
@@ -46,22 +34,5 @@ const deepDives = allEntries
             <Content />
         </div>
     </article>
-    {
-        deepDives.length > 0 && (
-            <div class="my-16 sm:my-24">
-                <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">Deep-dives</h2>
-                {deepDives.map((entry) => (
-                    <a class="group mb-10 flex items-start gap-5 sm:mb-12 sm:gap-8" href={`/leadership/${entry.id}/`}>
-                        <div class="grow">
-                            <h3 class="font-serif text-xl leading-tight font-medium group-hover:underline group-hover:decoration-dashed group-hover:decoration-1 group-hover:underline-offset-4 sm:text-2xl">
-                                {entry.data.title}
-                                {entry.data.subtitle && ` - ${entry.data.subtitle}`}
-                            </h3>
-                            {entry.data.description && <div class="mt-1 text-sm leading-normal">{entry.data.description}</div>}
-                        </div>
-                    </a>
-                ))}
-            </div>
-        )
-    }
+    {next && <LeadershipReadNext entry={next} class="mb-16 sm:mb-24" />}
 </BaseLayout>

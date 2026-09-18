@@ -68,7 +68,7 @@ const { Content } = await render(post);
     {
         (prevPost || nextPost) && (
             <div class="my-16 sm:my-24">
-                <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">Read Next</h2>
+                <h2 class="mb-4 text-sm font-medium opacity-60 sm:mb-6">Read next</h2>
                 {nextPost && <PostPreview post={nextPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
                 {prevPost && <PostPreview post={prevPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
             </div>

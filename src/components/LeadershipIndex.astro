@@ -1,0 +1,239 @@
+---
+import { type CollectionEntry } from 'astro:content';
+import { leadershipHref } from '../utils/data-utils';
+
+// Section index shown above the H1 on every Leadership page, so a reader who
+// lands on any one article sees the rest of the section before deciding to
+// leave. Deliberately compact (short labels): on a phone it must not push the
+// article title below the fold. The current article is marked the way the
+// main nav marks the current page - solid underline, not a link.
+//
+// Descriptions: on desktop with a mouse, hovering (or tabbing to) an entry
+// fades its navSubtitle and description in on a rail to the right of the list, with a notch
+// that slides to point at the entry. Touch devices never see the rail - a
+// hover-revealed element there would turn the first tap on a link into a
+// "hover" and make iOS require a second tap.
+type Props = {
+    series: CollectionEntry<'leadership'>[];
+    currentId: string;
+    class?: string;
+};
+
+const { series, currentId, class: className } = Astro.props;
+const descId = (id: string) => `leadership-desc-${id}`;
+const hasDesc = (entry: CollectionEntry<'leadership'>) => Boolean(entry.data.navSubtitle || entry.data.description);
+---
+
+<nav class:list={['border-main border-b border-dashed pb-6 sm:pb-8', className]} aria-label="Leadership articles" data-leadership-index>
+    <p class="mb-3 text-sm font-medium opacity-60">Thinking &amp; practice</p>
+    <div class="flex" data-hover-zone>
+        <ol class="min-w-0 md:shrink-0">
+            {
+                series.map((entry, i) => {
+                    const label = entry.data.navTitle ?? entry.data.title;
+                    const describedBy = hasDesc(entry) ? descId(entry.id) : undefined;
+                    const number = (
+                        <span class="w-5 shrink-0 text-xs tabular-nums opacity-40" aria-hidden="true">
+                            {String(i + 1).padStart(2, '0')}
+                        </span>
+                    );
+                    return (
+                        <li data-desc={describedBy}>
+                            {entry.id === currentId ? (
+                                <span class="flex items-baseline gap-3 py-1 sm:gap-4" aria-current="page">
+                                    {number}
+                                    <span class="text-[0.9375rem] leading-snug underline decoration-1 underline-offset-4 sm:text-base">{label}</span>
+                                </span>
+                            ) : (
+                                <a
+                                    class="group flex items-baseline gap-3 py-1 sm:gap-4"
+                                    href={leadershipHref(entry.id)}
+                                    aria-describedby={describedBy}
+                                >
+                                    {number}
+                                    <span class="text-[0.9375rem] leading-snug group-hover:underline group-hover:decoration-dashed group-hover:decoration-1 group-hover:underline-offset-4 sm:text-base">
+                                        {label}
+                                    </span>
+                                </a>
+                            )}
+                        </li>
+                    );
+                })
+            }
+        </ol>
+        <div class="rail relative ml-16 hidden min-w-0 grow md:grid" aria-hidden="true" data-rail>
+            <span class="rail-line" />
+            <span class="rail-notch" />
+            {
+                series.map(
+                    (entry) =>
+                        hasDesc(entry) && (
+                            <div id={descId(entry.id)} class="rail-desc">
+                                {entry.data.navSubtitle && <p class="rail-subtitle">{entry.data.navSubtitle}</p>}
+                                {entry.data.description && <p class="rail-text">{entry.data.description}</p>}
+                            </div>
+                        )
+                )
+            }
+        </div>
+    </div>
+</nav>
+
+<style>
+    /* Hover-capable devices only; see the note at the top of the file. */
+    @media (hover: none), (pointer: coarse) {
+        .rail {
+            display: none;
+        }
+    }
+
+    .rail-line,
+    .rail-notch {
+        opacity: 0;
+        transition: opacity 200ms ease;
+    }
+    .rail.is-open .rail-line,
+    .rail.is-open .rail-notch {
+        opacity: 1;
+    }
+
+    .rail-line {
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 1px;
+        background: color-mix(in srgb, var(--border-main) 25%, transparent);
+    }
+
+    /* A rotated square sitting on the line: its left and bottom borders form
+       the "<", and its background masks the stretch of line behind it, so the
+       line reads as bending out to point at the entry. */
+    .rail-notch {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 10px;
+        height: 10px;
+        border-bottom: 1px solid color-mix(in srgb, var(--border-main) 25%, transparent);
+        border-left: 1px solid color-mix(in srgb, var(--border-main) 25%, transparent);
+        background: var(--bg-main);
+        transform: translate(-50%, calc(var(--notch-y, 0px) - 50%)) rotate(45deg);
+        transition:
+            opacity 200ms ease,
+            transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .rail.no-slide .rail-notch {
+        transition: opacity 200ms ease;
+    }
+
+    /* All descriptions are stacked in one grid cell, so the rail is at least
+       as tall as the longest one - on a narrow desktop window a subtitle plus
+       description can outgrow the list, and must push the dashed rule down
+       rather than run over it. The script shifts each one next to its entry
+       with a transform, which leaves that height alone.
+       Switching entries is a crossfade: outgoing text leaves fast, incoming
+       text waits a beat, so the two never sit on top of each other at half
+       opacity. */
+    .rail-desc {
+        grid-area: 1 / 1;
+        align-self: start;
+        margin-left: 1.5rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 150ms ease;
+    }
+    .rail-desc.is-active {
+        opacity: 1;
+        transition: opacity 250ms ease 100ms;
+    }
+
+    /* Same size as the description; weight and full colour carry the
+       hierarchy, so the rail stays in the sans UI voice. */
+    .rail-subtitle {
+        margin: 0 0 0.125rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        line-height: 1.5;
+    }
+
+    .rail-text {
+        margin: 0;
+        font-size: 0.9375rem;
+        line-height: 1.5;
+        color: color-mix(in srgb, var(--text-main) 70%, transparent);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .rail-notch {
+            transition: opacity 200ms ease;
+        }
+    }
+</style>
+
+<script>
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+    function initLeadershipIndex() {
+        document.querySelectorAll<HTMLElement>('[data-leadership-index]').forEach((nav) => {
+            const zone = nav.querySelector<HTMLElement>('[data-hover-zone]');
+            const rail = nav.querySelector<HTMLElement>('[data-rail]');
+            if (!zone || !rail) return;
+
+            let active: HTMLElement | null = null;
+            let hideTimer: number | undefined;
+
+            const show = (row: HTMLElement) => {
+                // Rail is display:none below md or on touch - nothing to position.
+                if (!canHover.matches || rail.offsetParent === null) return;
+                window.clearTimeout(hideTimer);
+                const desc = row.dataset.desc ? document.getElementById(row.dataset.desc) : null;
+                if (!desc || desc === active) return;
+
+                const railBox = rail.getBoundingClientRect();
+                const rowBox = row.getBoundingClientRect();
+                const center = rowBox.top + rowBox.height / 2 - railBox.top;
+                // Keep the text next to its entry, but inside the rail.
+                const top = Math.max(0, Math.min(center - desc.offsetHeight / 2, rail.clientHeight - desc.offsetHeight));
+                desc.style.transform = `translateY(${top}px)`;
+
+                // First entry after the rail was hidden: place the notch
+                // directly instead of sliding it in from the previous spot.
+                const opening = !rail.classList.contains('is-open');
+                if (opening) rail.classList.add('no-slide');
+                rail.style.setProperty('--notch-y', `${center}px`);
+                if (opening) {
+                    void rail.offsetHeight;
+                    rail.classList.remove('no-slide');
+                }
+
+                active?.classList.remove('is-active');
+                desc.classList.add('is-active');
+                active = desc;
+                rail.classList.add('is-open');
+            };
+
+            const hide = () => {
+                window.clearTimeout(hideTimer);
+                hideTimer = window.setTimeout(() => {
+                    rail.classList.remove('is-open');
+                    active?.classList.remove('is-active');
+                    active = null;
+                }, 120);
+            };
+
+            zone.querySelectorAll<HTMLElement>('li').forEach((row) => {
+                row.addEventListener('pointerenter', (e) => {
+                    if (e.pointerType === 'mouse') show(row);
+                });
+                row.addEventListener('focusin', () => show(row));
+            });
+            // The zone spans list and rail, so moving the pointer across to
+            // read a description doesn't dismiss it.
+            zone.addEventListener('pointerleave', hide);
+            zone.addEventListener('focusout', (e) => {
+                if (!zone.contains(e.relatedTarget as Node | null)) hide();
+            });
+        });
+    }
+
+    document.addEventListener('astro:page-load', initLeadershipIndex);
+</script>

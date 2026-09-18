@@ -91,8 +91,14 @@ html.dark {
         @apply underline font-normal decoration-1 underline-offset-2 decoration-dashed hover:decoration-solid;
     }
 
-    .prose :where(h1, h2, h3, h4, h5, h6) {
+    /* Serif is for headings only, and only the ones that read as headings:
+       h1-h3. h4-h6 are small labels in the case studies (image captions,
+       "Old design:") and stay in the sans text voice. */
+    .prose :where(h1, h2, h3) {
         @apply font-serif font-medium;
+    }
+    .prose :where(h4, h5, h6) {
+        @apply font-semibold;
     }
 
     .prose :where(code, strong) {
