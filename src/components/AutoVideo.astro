@@ -9,6 +9,10 @@
 // playback if the browser refused the initial autoplay. Do not go back to
 // a JS-only `play()` with `preload="none"` - there is nothing buffered at
 // that moment, so the promise rejects and the poster stays up.
+//
+// In-site navigation needs one extra step: see the `load()` note in the
+// script. Without it every clip stays on its poster when the page is reached
+// from another page of the site rather than opened directly.
 interface Props {
     src: string;
     poster?: string;
@@ -54,7 +58,10 @@ const { src, poster, alt, caption } = Astro.props;
 <script>
     // Bundled once by Astro regardless of how many <AutoVideo> instances a
     // page has. Re-runs on ClientRouter navigation.
-    const w = window as Window & { __autoVideoObserver?: IntersectionObserver };
+    const w = window as Window & {
+        __autoVideoObserver?: IntersectionObserver;
+        __autoVideoRearmInstalled?: boolean;
+    };
 
     function videos() {
         return Array.from(document.querySelectorAll<HTMLVideoElement>('video[data-autovideo]'));
@@ -72,11 +79,26 @@ const { src, poster, alt, caption } = Astro.props;
         void v.play().catch(() => {});
     }
 
+    function reducedMotion() {
+        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+
     function setupAutoVideo() {
         const list = videos();
         if (!list.length) return;
 
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        // Astro's ClientRouter builds the next page with DOMParser. A <video>
+        // parsed there runs resource selection in a document with no browsing
+        // context, ends up NETWORK_NO_SOURCE, and does not retry once it is
+        // swapped into the live page - so it never loads, and neither native
+        // autoplay nor play() can start it. Restart the load for any clip
+        // stuck that way. A clip that tried its src and failed keeps
+        // currentSrc, so it is not retried here.
+        list.forEach((v) => {
+            if (v.networkState === HTMLMediaElement.NETWORK_NO_SOURCE && !v.currentSrc) v.load();
+        });
+
+        if (reducedMotion()) {
             list.forEach((v) => {
                 v.autoplay = false;
                 v.controls = true;
@@ -100,12 +122,24 @@ const { src, poster, alt, caption } = Astro.props;
         );
         list.forEach((v) => w.__autoVideoObserver!.observe(v));
 
-        // If the browser declined autoplay on load, the first interaction of
-        // any kind is enough of a user gesture to start the visible clips.
-        const rearm = () => videos().filter(inViewport).forEach(tryPlay);
-        ['pointerdown', 'touchstart', 'keydown', 'scroll', 'wheel'].forEach((evt) =>
-            window.addEventListener(evt, rearm, { once: true, passive: true })
-        );
+        // If the browser declines autoplay (iOS Low Power Mode, Safari's
+        // "Never Auto-Play"), a tap, click or key press is the user gesture it
+        // wants. Listen for every one rather than only the first: the first
+        // usually happens near the top of the page, before any clip is in
+        // view. Scroll and wheel are not user gestures, so they are left out.
+        // Installed once per session, since this runs on every navigation.
+        if (!w.__autoVideoRearmInstalled) {
+            w.__autoVideoRearmInstalled = true;
+            const rearm = () => {
+                if (reducedMotion()) return;
+                videos()
+                    .filter((v) => v.paused && inViewport(v))
+                    .forEach(tryPlay);
+            };
+            ['pointerdown', 'touchend', 'keydown'].forEach((evt) =>
+                window.addEventListener(evt, rearm, { passive: true })
+            );
+        }
     }
 
     document.addEventListener('astro:after-swap', setupAutoVideo);
