@@ -19,3 +19,7 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# Local secrets for `wrangler pages dev` (e.g. PROTOTYPE_PASSWORD)
+.dev.vars
+.wrangler/

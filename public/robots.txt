@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /projects/sisense-agentic-platform/saini/
 
 Sitemap: https://kaidanv.com/sitemap-index.xml

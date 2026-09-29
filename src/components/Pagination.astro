@@ -4,8 +4,11 @@ import ArrowRight from '../assets/icons/arrow-right.svg';
 import IconButton from './IconButton.astro';
 
 const { page, class: className } = Astro.props;
+// Nothing to paginate on a single page - "Page 1 of 1" is just noise.
+const hasMultiplePages = page.lastPage > 1;
 ---
 
+{hasMultiplePages && (
 <nav aria-label="Pagination" class:list={['relative px-12 py-2 text-center', className]}>
     {
         page.url.prev && (
@@ -31,3 +34,4 @@ const { page, class: className } = Astro.props;
         )
     }
 </nav>
+)}

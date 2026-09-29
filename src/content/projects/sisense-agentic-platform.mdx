@@ -1,0 +1,124 @@
+---
+title: "Sisense Agentic Platform"
+pageTitle: "Sisense Agentic Platform: Vision & Prototype"
+description: "Product vision and working prototype for an AI-native analytics platform | 2026"
+publishDate: "2026-05-31"
+isFeatured: true
+draft: false
+seo:
+  title: "Sisense Agentic Platform: Vision & Prototype"
+  description: "A working prototype of an agent-based analytics platform, built to test the AI-native direction and give teams one shared reference for the roadmap."
+  image:
+    src: "/uploads/2026/saini/saini-cover.jpg"
+    alt: "Agent network: an orchestrator linked to finance, CRM, support, and product agents, with the analytics agent at the center"
+---
+
+import PrototypeLink from '../../components/PrototypeLink.astro';
+import FigureSaini from '../../components/FigureSaini.astro';
+
+export const PROTOTYPE_URL = '/projects/sisense-agentic-platform/saini/';
+export const PROTOTYPE_NOTE = 'Opens in a new tab. Desktop browser, 1280 px or wider. Access password on request.';
+
+<img src="/uploads/2026/saini/saini-home.jpg" alt="Prototype Home: the assistant offers starting intents - embed intelligence, connect data, visualize, set up an AI analyst, alerts, metrics" loading="lazy" />
+
+<PrototypeLink href={PROTOTYPE_URL} note={PROTOTYPE_NOTE} />
+
+## Overview
+
+In early 2026 I wrote a working paper on where analytics platforms go once AI agents become the main interface to data. Its argument: the platform turns into an intelligence layer that agents query - governed metrics, analytical reasoning, and decision signals that product companies build into their own software.
+
+SAINI (an internal codename) turns that paper into the platform itself: the Sisense brand shell, a sample company's data, and a scripted assistant.
+
+## What this prototype is
+
+A working prototype, not a polished demo. The data is fictional, the assistant follows prepared scenarios, and a simulation engine keeps signals and agents moving so the system behaves like a live one. Depth follows the questions the team needed to settle.
+
+Its role in the product organization:
+
+<ul>
+ 	<li><span style="font-weight: 600;">One place for the plans.</span> AI-native and agentic ideas from separate documents and conversations, brought together and made visible.</li>
+ 	<li><span style="font-weight: 600;">Hands-on validation.</span> Ideas tried and challenged while they are still cheap to change.</li>
+ 	<li><span style="font-weight: 600;">A shared reference.</span> Product, design, and engineering plan the roadmap from the same tangible material.</li>
+</ul>
+
+## My role
+
+I wrote the concept paper, defining the product vision, information architecture, and interaction model. Then, based on the ideas elaborated there, I built the prototype myself with Claude Code, so it could serve as a grounded asset for future product and strategy discussions.
+
+## The concept
+
+Three ideas from my concept shaped the product structure.
+
+### The platform as an agent
+
+In a multi-agent product, analytics becomes one specialized agent alongside the customer's finance, CRM, and support agents.
+
+<ul>
+ 	<li><span style="font-weight: 600;">Capabilities as agent tools.</span> Querying a metric, detecting an anomaly, root cause analysis, forecasting - exposed through MCP-style interfaces and discoverable through A2A orchestration.</li>
+ 	<li><span style="font-weight: 600;">Two layers underneath.</span> A decision engine does the deterministic analysis that language models are unreliable at; the semantic layer defines what each metric means, so every agent works with the same business truth.</li>
+ 	<li><span style="font-weight: 600;">The customer orchestrates.</span> The orchestration layer usually belongs to the product company, and business actions stay in its own agents.</li>
+</ul>
+
+<FigureSaini variant="architecture" caption="Fig. 1 - Reference architecture: the platform as a specialized analytics agent inside the customer's multi-agent system." />
+
+### From signal to action
+
+AI systems will increasingly act on analytics results automatically. I split that loop between two owners.
+
+<FigureSaini variant="loop" caption="Fig. 2 - The decision loop, from a detected anomaly to a measured outcome." />
+
+<ul>
+ 	<li><span style="font-weight: 600;">The analytics agent</span> monitors metrics, finds anomalies and their root causes, and emits a structured decision signal: the insight, a confidence score, and the reasoning needed to choose an action. It does not execute the action.</li>
+ 	<li><span style="font-weight: 600;">The customer's agents</span> decide under their own policy layer, act, and measure the outcome.</li>
+ 	<li><span style="font-weight: 600;">The feedback loop</span> returns outcomes to analytics, so it learns which recommendations work and future signals get better.</li>
+</ul>
+
+The split keeps accountability clear: the platform owns analytical truth and reasoning quality, the customer owns business actions and risk governance.
+
+<FigureSaini variant="signal-flow" caption="Fig. 3 - Who owns what: the analytics agent produces the signal, the customer's infrastructure acts on it and reports the outcome back." />
+
+### Onboarding built on proof
+
+I framed onboarding as a sequence of proofs, each for a different persona: architecture fit for the builder, trust in governed metrics for the semantic owner, business value for the outcome owner.
+
+<FigureSaini variant="onboarding-path" caption="Fig. 4 - Onboarding as a sequence of proofs, one per persona." />
+
+In the prototype, this shaped the entry point: the first screen asks for your role, and Home adapts its headline, starting flows, and the assistant's tone to it.
+
+## From concept to interface
+
+<ul>
+ 	<li><span style="font-weight: 600;">Agents in two modes.</span> Monitors watch continuously and produce signals; assistants work in conversation. The platform's own assistant is one of them.</li>
+ 	<li><span style="font-weight: 600;">Signals as the main output.</span> Each carries its reasoning, evidence, and a suggested response.</li>
+ 	<li><span style="font-weight: 600;">The semantic layer as the control point.</span> Agents, dashboards, and assistants use the same governed models and metrics.</li>
+ 	<li><span style="font-weight: 600;">Code next to the visual view.</span> Models, metrics, dashboards, widgets, and governance rules open as code, so AI-generated configuration stays readable and reviewable.</li>
+ 	<li><span style="font-weight: 600;">Governance on the assets themselves.</span> Models, metrics, data sets, agents, and signals each carry their governance status.</li>
+</ul>
+
+<img src="/uploads/2026/saini/saini-signals.jpg" alt="Signal stream - signals produced by monitor agents, each with its lifecycle stage and status" loading="lazy" />
+
+## AI as the main path
+
+Early feedback was uncomfortable and useful: on paper the platform was AI-native, in use it felt UI-first. The assistant sat at the side, and AI had become the fallback. The second half of the work turned that around:
+
+<ul>
+ 	<li><span style="font-weight: 600;">Assistant first.</span> The panel got visual priority and the first word on every screen.</li>
+ 	<li><span style="font-weight: 600;">Guided flows.</span> Every starting action on Home is led by the assistant. Upload a CSV, and it builds the data set, infers the model and its joins, suggests metrics, and offers dashboards, signals, and a monitor.</li>
+ 	<li><span style="font-weight: 600;">Memory.</span> Sessions keep their history, remember paused flows, and leave a card for everything created.</li>
+ 	<li><span style="font-weight: 600;">Full manual control.</span> Power users need it, and people who delegate still want to check what the AI did.</li>
+</ul>
+
+<img src="/uploads/2026/saini/saini-model-joins.jpg" alt="Data model schema with the assistant proposing joins - apply all or review each one - next to the manual diagram editor" loading="lazy" />
+
+## Outcome
+
+The prototype was tested both inside the company and with external users, and the response was strong. Participants understood the product's value better than with the existing platform, although the UI and experience were still a rough draft. Feedback also described the approach as innovative and promising.
+
+Within the company:
+
+<ul>
+ 	<li><span style="font-weight: 600;">Engineering directors</span> said that the product vision, and where the company should be heading, had "finally" become clear to them.</li>
+ 	<li><span style="font-weight: 600;">The leadership team</span> noted the coherence of the vision and its strategic importance, adopted it as the strategic direction for the platform, and approved the prototype as the product team's working tool for developing that direction further.</li>
+</ul>
+
+<PrototypeLink href={PROTOTYPE_URL} note={PROTOTYPE_NOTE} />

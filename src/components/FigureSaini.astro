@@ -1,0 +1,442 @@
+---
+// Figures for the SAINI case study, transcribed 1:1 from the diagrams in the
+// "AI-Native Analytics Architecture" working paper (geometry measured from the
+// source images, coordinates kept in the source's 2000-px-wide space).
+// Live text, transparent background, theme-adaptive via CSS variables, in the
+// same way as the Shared Loop figures. Accent colors are the source's own.
+type Variant = 'architecture' | 'loop' | 'signal-flow' | 'onboarding-path';
+interface Props {
+    variant: Variant;
+    caption?: string;
+}
+const { variant, caption } = Astro.props;
+
+const loopSteps = [
+    { cx: 222.5, title: 'Detect', lines: ['Metric anomaly', 'identified.'] },
+    { cx: 607.5, title: 'Analyze', lines: ['Root cause', 'investigation.'] },
+    { cx: 992.5, title: 'Recommend', lines: ['Action trigger', 'produced.'] },
+    { cx: 1377.5, title: 'Execute', lines: ['Domain agent acts.'] },
+    { cx: 1763.5, title: 'Measure', lines: ['Feedback loop', 'closure.'] }
+];
+---
+
+<figure class:list={['saini-figure', `saini-figure--${variant}`]}>
+    <div class="saini-figure__scroll">
+        {
+            variant === 'architecture' && (
+                <svg
+                    viewBox="115 55 1762 968"
+                    role="img"
+                    aria-label="Reference architecture: a user or product AI assistant talks to an agent orchestrator, which coordinates a finance agent, a CRM agent, the Sisense analytics agent, and a support agent. The analytics agent is highlighted and sits on a decision engine, a semantic metrics layer, and data infrastructure."
+                >
+                    {/* User / Product AI Assistant */}
+                    <rect class="a-box" x="806.5" y="72.5" width="380" height="148" />
+                    <text x="996" y="134" class="a-bold" text-anchor="middle">User / Product</text>
+                    <text x="996" y="189" class="a-bold" text-anchor="middle">AI Assistant</text>
+                    <line class="a-ln" x1="996" y1="221" x2="996" y2="279" />
+                    <polygon class="a-ah" points="988.5,277 1003.5,277 996,296" />
+
+                    {/* Agent Orchestrator */}
+                    <rect class="a-box" x="133.5" y="297.5" width="1725" height="92" />
+                    <text x="996" y="360" class="a-bold" text-anchor="middle">Agent Orchestrator</text>
+
+                    {/* Fan-out */}
+                    <line class="a-ln" x1="996" y1="389" x2="996" y2="431.5" />
+                    <line class="a-ln" x1="322" y1="431.5" x2="1669.5" y2="431.5" />
+                    <line class="a-ln" x1="323.5" y1="431.5" x2="323.5" y2="453" />
+                    <polygon class="a-ah" points="316,452 331,452 323.5,470" />
+                    <line class="a-ln" x1="772" y1="431.5" x2="772" y2="453" />
+                    <polygon class="a-ah" points="764.5,452 779.5,452 772,470" />
+                    <line class="a-ln-o" x1="1220" y1="431.5" x2="1220" y2="452" />
+                    <polygon class="a-ah-o" points="1211,451 1229,451 1220,470" />
+                    <line class="a-ln" x1="1668" y1="431.5" x2="1668" y2="453" />
+                    <polygon class="a-ah" points="1660.5,452 1675.5,452 1668,470" />
+
+                    {/* Agents row */}
+                    <rect class="a-box" x="133.5" y="472.5" width="381" height="122" />
+                    <text x="323.5" y="549" class="a-reg" text-anchor="middle">Finance Agent</text>
+                    <rect class="a-box" x="581.5" y="472.5" width="381" height="122" />
+                    <text x="772" y="549" class="a-reg" text-anchor="middle">CRM Agent</text>
+                    <rect class="a-box-o" x="1029.5" y="472.5" width="381" height="122" />
+                    <text x="1220" y="523" class="a-reg-o" text-anchor="middle">Analytics Agent</text>
+                    <text x="1220" y="570" class="a-reg-o" text-anchor="middle">(Sisense)</text>
+                    <rect class="a-box" x="1477.5" y="472.5" width="381" height="122" />
+                    <text x="1668" y="549" class="a-reg" text-anchor="middle">Support Agent</text>
+
+                    {/* A2A handoffs between agents */}
+                    <line class="a-ln" x1="515" y1="533" x2="562" y2="533" />
+                    <polygon class="a-ah" points="561,525.5 561,540.5 579,533" />
+                    <line class="a-ln" x1="963" y1="533" x2="1010" y2="533" />
+                    <polygon class="a-ah" points="1009,525.5 1009,540.5 1027,533" />
+                    <line class="a-ln" x1="1412" y1="533" x2="1458" y2="533" />
+                    <polygon class="a-ah" points="1457,525.5 1457,540.5 1475,533" />
+
+                    {/* Analytics stack */}
+                    <line class="a-ln-o" x1="1220" y1="595" x2="1220" y2="634" />
+                    <rect class="a-box-o" x="1029.5" y="636" width="381" height="93" />
+                    <text x="1220" y="696" class="a-sm-o" text-anchor="middle">Decision Engine</text>
+                    <line class="a-ln-o" x1="1220" y1="729" x2="1220" y2="768" />
+                    <rect class="a-box-o" x="1029.5" y="769.5" width="381" height="103" />
+                    <text x="1220" y="814" class="a-sm-o" text-anchor="middle">Semantic Metrics</text>
+                    <text x="1220" y="858" class="a-sm-o" text-anchor="middle">Layer</text>
+                    <line class="a-ln-o" x1="1220" y1="872" x2="1220" y2="913" />
+                    <rect class="a-box-o" x="1029.5" y="914.5" width="381" height="92" />
+                    <text x="1220" y="975" class="a-sm-o" text-anchor="middle">Data Infrastructure</text>
+                </svg>
+            )
+        }
+        {
+            variant === 'loop' && (
+                <svg
+                    viewBox="40 140 1905 325"
+                    role="img"
+                    aria-label="Decision loop in five steps: detect - metric anomaly identified; analyze - root cause investigation; recommend - action trigger produced; execute - domain agent acts; measure - feedback loop closure."
+                >
+                    <g class="l-line">
+                        <line x1="54" y1="191" x2="181" y2="191" />
+                        <line x1="264" y1="191" x2="566" y2="191" />
+                        <line x1="649" y1="191" x2="951" y2="191" />
+                        <line x1="1034" y1="191" x2="1336" y2="191" />
+                        <line x1="1419" y1="191" x2="1722" y2="191" />
+                        <line x1="1805" y1="191" x2="1932" y2="191" />
+                    </g>
+                    {loopSteps.map((s) => (
+                        <g>
+                            <circle class="l-ring" cx={s.cx} cy="189" r="39.75" />
+                            <text x={s.cx} y="314" class="l-title" text-anchor="middle">
+                                {s.title}
+                            </text>
+                            {s.lines.map((line, i) => (
+                                <text x={s.cx} y={391 + i * 54} class="l-desc" text-anchor="middle">
+                                    {line}
+                                </text>
+                            ))}
+                        </g>
+                    ))}
+                    {/* Icons: bell, microscope, lightbulb, bolt, line chart - 24-unit grid scaled to ~30 px */}
+                    <g class="l-icon" transform="translate(207.5 174) scale(1.25)">
+                        <path d="M12 2.2c-3.6 0-6.2 2.8-6.2 6.3v4.1c0 .7-.3 1.4-.8 1.9l-1.5 1.6c-.5.5-.1 1.4.6 1.4h15.8c.7 0 1.1-.9.6-1.4L19 14.5c-.5-.5-.8-1.2-.8-1.9V8.5c0-3.5-2.6-6.3-6.2-6.3Z" />
+                        <path d="M9.4 19.2h5.2a2.6 2.6 0 0 1-5.2 0Z" />
+                    </g>
+                    <g class="l-icon" transform="translate(592.5 174) scale(1.25)">
+                        <path d="M9.2 2.5h3.6v1.6h-.6v7.6H9.8V4.1h-.6Z" />
+                        <path d="M8.6 12.6h4.8v1.8H8.6Z" />
+                        <path class="l-icon-stroke" d="M13.4 9.2a5.4 5.4 0 0 1 1.2 10.1" />
+                        <path d="M5.2 19.4h13.6v2.1H5.2Z" />
+                        <path d="M8.2 16.4h6.4v1.6H8.2Z" />
+                    </g>
+                    <g class="l-icon" transform="translate(977.5 174) scale(1.25)">
+                        <path d="M12 2.4a6.4 6.4 0 0 0-3.9 11.5c.6.5 1 1.2 1 2V16.6h5.8v-.7c0-.8.4-1.5 1-2A6.4 6.4 0 0 0 12 2.4Z" />
+                        <path d="M9.1 18h5.8v1.5H9.1Z" />
+                        <path d="M10.2 20.4h3.6a1.8 1.8 0 0 1-3.6 0Z" />
+                    </g>
+                    <g class="l-icon" transform="translate(1362.5 174) scale(1.25)">
+                        <path d="M14.2 1.8 5.6 13.3h5.6l-1.5 8.9 8.7-11.8h-5.7Z" />
+                    </g>
+                    <g class="l-icon" transform="translate(1748.5 174) scale(1.25)">
+                        <path class="l-icon-stroke" d="M4 4.5v14.6h16" />
+                        <path class="l-icon-stroke" d="m7.4 14.6 3.6-4.2 3 2.6 4.8-5.6" />
+                    </g>
+                </svg>
+            )
+        }
+        {
+            variant === 'signal-flow' && (
+                <svg
+                    viewBox="80 80 1845 832"
+                    role="img"
+                    aria-label="On the left, the Sisense analytics agent: metric monitoring leads to root cause, which leads to a structured decision signal. The signal - insight, confidence, and reasoning - goes to the customer infrastructure on the right: an agent orchestrator and policy layer, then the customer domain agent taking a business action, then outcome measurement, which returns to the analytics agent as a feedback loop."
+                >
+                    {/* Sisense Analytics Agent */}
+                    <rect class="s-group" x="89.5" y="131.5" width="737.5" height="771.5" />
+                    <text x="457.5" y="200" class="s-t" text-anchor="middle">Sisense Analytics Agent</text>
+
+                    <rect class="s-box s-box--own" x="141" y="304" width="601.5" height="103.5" rx="21" />
+                    <text x="441.5" y="369" class="s-t" text-anchor="middle">📈 Metric Monitoring</text>
+                    <rect class="s-box s-box--own" x="141" y="495" width="601.5" height="103.5" rx="21" />
+                    <text x="441.5" y="560" class="s-t" text-anchor="middle">🔍 Root Cause</text>
+                    <rect class="s-box s-box--own" x="141" y="675.5" width="601.5" height="125" rx="21" />
+                    <text x="441.5" y="731" class="s-t" text-anchor="middle">📡 Generates Structured</text>
+                    <text x="441.5" y="773" class="s-t" text-anchor="middle">Decision Signal</text>
+
+                    <line class="s-ln-b" x1="441.5" y1="409" x2="441.5" y2="464" />
+                    <polygon class="s-ah-b" points="433,462 450,462 441.5,490" />
+                    <line class="s-ln-b" x1="441.5" y1="600" x2="441.5" y2="645" />
+                    <polygon class="s-ah-b" points="433,643 450,643 441.5,671" />
+
+                    {/* Signal to the customer's orchestrator */}
+                    <path class="s-ln-b" d="M742.5 737.5H991a9.5 9.5 0 0 0 9.5-9.5V582" />
+                    <path class="s-ln-b" d="M1000.5 455V277a9.5 9.5 0 0 1 9.5-9.5h137" />
+                    <polygon class="s-ah-b" points="1145,259.5 1145,275.5 1175,267.5" />
+                    <text x="1000" y="488" class="s-lbl" text-anchor="middle">Insight +</text>
+                    <text x="1000" y="530" class="s-lbl" text-anchor="middle">Confidence +</text>
+                    <text x="1000" y="573" class="s-lbl" text-anchor="middle">Reasoning</text>
+
+                    {/* Customer Infrastructure */}
+                    <text x="1547.5" y="134" class="s-h" text-anchor="middle">Customer Infrastructure</text>
+                    <rect class="s-box s-box--cust" x="1179" y="205" width="737.5" height="125.5" rx="22" />
+                    <text x="1551.5" y="281" class="s-t" text-anchor="middle">⚙️ Agent Orchestrator + Policy Layer</text>
+
+                    <line class="s-ln" x1="1547.5" y1="330.5" x2="1547.5" y2="400" />
+                    <polygon class="s-ah" points="1539.5,398 1555.5,398 1547.5,420" />
+
+                    <rect class="s-group" x="1178.5" y="422.5" width="737.5" height="296.5" />
+                    <text x="1548" y="469" class="s-t" text-anchor="middle">Customer Domain Agent</text>
+                    <rect class="s-box s-box--cust" x="1247" y="546" width="601.5" height="103.5" rx="21" />
+                    <text x="1547" y="612" class="s-t" text-anchor="middle">🎯 Business Action</text>
+
+                    <line class="s-ln" x1="1547.5" y1="649.5" x2="1547.5" y2="772" />
+                    <polygon class="s-ah" points="1539.5,770 1555.5,770 1547.5,792" />
+
+                    <rect class="s-box s-box--cust" x="1247" y="792" width="601.5" height="103.5" rx="21" />
+                    <text x="1549.5" y="858" class="s-t" text-anchor="middle">📋 Outcome measurement</text>
+
+                    {/* Feedback loop */}
+                    <line class="s-ln" x1="1151" y1="844" x2="1247" y2="844" />
+                    <text x="1036" y="862" class="s-lbl" text-anchor="middle">Feedback Loop</text>
+                    <line class="s-ln" x1="850" y1="850" x2="920" y2="850" />
+                    <polygon class="s-ah" points="831,850 853,842.5 853,857.5" />
+                </svg>
+            )
+        }
+        {
+            variant === 'onboarding-path' && (
+                <svg
+                    viewBox="65 55 1880 730"
+                    role="img"
+                    aria-label="Onboarding path as three rising steps. Architecture fit for the builder: ship one embedded agent capability fast. Then a wow moment. Trust and governance for the semantic owner: prove one governed metric and inspect the reasoning trace. Then a trust moment. Business leverage for the outcome owner: produce one high-value, reusable decision signal."
+                >
+                    <path class="t-stair" d="M85.5 773V582.5H530L780 386H1230L1478 196H1924" />
+                    <line class="t-stair" x1="781.5" y1="386" x2="781.5" y2="575" />
+                    <line class="t-stair" x1="1481.5" y1="196" x2="1481.5" y2="384" />
+
+                    <text x="306" y="494" class="t-h" text-anchor="middle">Architecture Fit</text>
+                    <text x="306" y="545" class="t-sub" text-anchor="middle">(Builder)</text>
+                    <text x="133" y="645" class="t-body">Ship one embedded</text>
+                    <text x="133" y="691" class="t-body">agent capability fast.</text>
+
+                    <text x="1003" y="292" class="t-h" text-anchor="middle">Trust &amp; Governance</text>
+                    <text x="1003.5" y="343" class="t-sub" text-anchor="middle">(Semantic Owner)</text>
+                    <text x="828" y="449" class="t-body">Prove one governed</text>
+                    <text x="828" y="494" class="t-body">metric and inspect the</text>
+                    <text x="828" y="540" class="t-body">reasoning trace.</text>
+
+                    <text x="1703.5" y="110" class="t-h" text-anchor="middle">Business Leverage</text>
+                    <text x="1702.5" y="162" class="t-sub" text-anchor="middle">(Outcome Owner)</text>
+                    <text x="1526" y="263" class="t-body">Produce one high-value,</text>
+                    <text x="1526" y="309" class="t-body">reusable decision signal.</text>
+
+                    <rect class="t-moment" x="577.5" y="621.5" width="362" height="86" rx="2" />
+                    <text x="758.5" y="682" class="t-moment-t" text-anchor="middle">Wow Moment</text>
+                    <rect class="t-moment" x="1276.5" y="424.5" width="362" height="86" rx="2" />
+                    <text x="1457.5" y="485" class="t-moment-t" text-anchor="middle">Trust Moment</text>
+                </svg>
+            )
+        }
+    </div>
+    {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+    .saini-figure {
+        margin: 2.5rem 0;
+        /* neutrals - light theme values are the source images' own */
+        --ink: #1a1a1a;
+        --ink-mid: #45464a;
+        --ink-group: #b0b0b0;
+        --slate: #384151;
+        --slate-soft: #4c5464;
+        --rule: #e3e7ed;
+        --tint-own: rgba(0, 150, 255, 0.035);
+        --tint-cust: rgba(0, 0, 0, 0.03);
+        /* accents */
+        --blue-loop: #597fe5;
+        --blue-flow: #3a5aa4;
+        --orange-arch: #d89c51;
+        --orange-onb: #cc9444;
+    }
+    :global(html.dark) .saini-figure {
+        --ink: #e6ecf0;
+        --ink-mid: #b4bfca;
+        --ink-group: #56626e;
+        --slate: #e6ecf0;
+        --slate-soft: #aab6c2;
+        --rule: #3a4652;
+        --tint-own: rgba(120, 180, 255, 0.07);
+        --tint-cust: rgba(255, 255, 255, 0.045);
+        --blue-loop: #7896ee;
+        --blue-flow: #7b98e0;
+    }
+    .saini-figure svg {
+        width: 100%;
+        height: auto;
+        display: block;
+        font-family: 'Inter Variable', sans-serif;
+    }
+    /* The source diagrams are drawn for a wide canvas; on a phone they scroll
+       sideways instead of shrinking the labels below legibility. */
+    @media (max-width: 639px) {
+        .saini-figure__scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .saini-figure__scroll svg {
+            min-width: 600px;
+        }
+    }
+    .saini-figure figcaption {
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+        opacity: 0.7;
+        text-align: center;
+    }
+
+    /* architecture */
+    .a-box {
+        fill: none;
+        stroke: var(--ink-mid);
+        stroke-width: 3;
+    }
+    .a-box-o {
+        fill: none;
+        stroke: var(--orange-arch);
+        stroke-width: 4.5;
+    }
+    .a-ln {
+        stroke: var(--ink-mid);
+        stroke-width: 3;
+    }
+    .a-ln-o {
+        stroke: var(--orange-arch);
+        stroke-width: 4.5;
+    }
+    .a-ah {
+        fill: var(--ink-mid);
+    }
+    .a-ah-o {
+        fill: var(--orange-arch);
+    }
+    .a-bold {
+        font-size: 44px;
+        font-weight: 700;
+        fill: var(--ink);
+    }
+    .a-reg {
+        font-size: 40px;
+        fill: var(--ink);
+    }
+    .a-reg-o {
+        font-size: 40px;
+        fill: var(--orange-arch);
+    }
+    .a-sm-o {
+        font-size: 37px;
+        fill: var(--orange-arch);
+    }
+
+    /* loop */
+    .l-line line {
+        stroke: var(--rule);
+        stroke-width: 3;
+    }
+    .l-ring {
+        fill: none;
+        stroke: var(--blue-loop);
+        stroke-width: 3.5;
+    }
+    .l-icon {
+        fill: var(--blue-loop);
+    }
+    .l-icon-stroke {
+        fill: none;
+        stroke: var(--blue-loop);
+        stroke-width: 2.2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+    .l-title {
+        font-size: 46.5px;
+        font-weight: 700;
+        fill: var(--slate);
+    }
+    .l-desc {
+        font-size: 33px;
+        fill: var(--slate-soft);
+    }
+
+    /* signal flow */
+    .s-group {
+        fill: none;
+        stroke: var(--ink-group);
+        stroke-width: 3;
+    }
+    .s-box {
+        stroke: var(--ink);
+        stroke-width: 3.5;
+    }
+    .s-box--own {
+        fill: var(--tint-own);
+    }
+    .s-box--cust {
+        fill: var(--tint-cust);
+    }
+    .s-ln {
+        fill: none;
+        stroke: var(--ink);
+        stroke-width: 2.5;
+    }
+    .s-ah {
+        fill: var(--ink);
+    }
+    .s-ln-b {
+        fill: none;
+        stroke: var(--blue-flow);
+        stroke-width: 2.5;
+    }
+    .s-ah-b {
+        fill: var(--blue-flow);
+    }
+    .s-t {
+        font-size: 35px;
+        fill: var(--ink);
+    }
+    .s-h {
+        font-size: 48px;
+        fill: var(--ink);
+    }
+    .s-lbl {
+        font-size: 29px;
+        fill: var(--ink);
+    }
+
+    /* onboarding path */
+    .t-stair {
+        fill: none;
+        stroke: var(--ink);
+        stroke-width: 6;
+        stroke-linejoin: miter;
+    }
+    .t-h {
+        font-size: 44.5px;
+        font-weight: 700;
+        fill: var(--ink);
+    }
+    .t-sub {
+        font-size: 42px;
+        fill: var(--ink);
+    }
+    .t-body {
+        font-size: 35.5px;
+        fill: var(--ink);
+    }
+    .t-moment {
+        fill: none;
+        stroke: var(--orange-onb);
+        stroke-width: 6.5;
+    }
+    .t-moment-t {
+        font-size: 44px;
+        font-weight: 700;
+        fill: var(--orange-onb);
+    }
+</style>

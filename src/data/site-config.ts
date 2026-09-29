@@ -17,12 +17,12 @@ const siteConfig: SiteConfig = {
     headerNavLinks: [
         { text: 'About', href: '/' },
         { text: 'Leadership', href: '/leadership' },
-        { text: 'Earlier work', href: '/projects' }
+        { text: 'Selected projects', href: '/projects' }
     ],
     footerNavLinks: [
         { text: 'About', href: '/' },
         { text: 'Leadership', href: '/leadership' },
-        { text: 'Earlier work', href: '/projects' }
+        { text: 'Selected projects', href: '/projects' }
     ],
     socialLinks: [
         { text: 'LinkedIn', href: 'https://www.linkedin.com/in/kaidan' },

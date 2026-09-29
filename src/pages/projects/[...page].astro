@@ -18,10 +18,10 @@ const { page } = Astro.props;
 const portfolio = page.data;
 ---
 
-<BaseLayout title="Earlier work" description="A selection of earlier hands-on case studies from Victor Kaidan's design career." showHeader={false}>
-    <h1 class="mb-4 font-serif text-2xl leading-tight sm:mb-6 sm:text-4xl">Earlier work</h1>
+<BaseLayout title="Selected projects" description="Selected case studies by Victor Kaidan, from AI-native product direction to earlier hands-on design work." showHeader={false}>
+    <h1 class="mb-4 font-serif text-2xl leading-tight sm:mb-6 sm:text-4xl">Selected projects</h1>
     <div class="prose sm:prose-lg mb-12 max-w-none sm:mb-16">
-        <p>A selection of earlier hands-on case studies. Recent leadership work isn't published here - happy to share or walk through it on request.</p>
+        <p>A selection of case studies, from recent product direction to earlier hands-on design work. Much of my recent leadership work isn't public - happy to walk through it on request.</p>
     </div>
     {portfolio.map((project) => <ProjectPreview project={project} class="mb-10 sm:mb-12" />)}
     <Pagination page={page} class="my-16 sm:my-24" />

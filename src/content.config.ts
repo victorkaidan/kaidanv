@@ -47,6 +47,9 @@ const projects = defineCollection({
     schema: ({ image }) =>
         z.object({
             title: z.string(),
+            // Optional H1 for the project page when it should differ from the
+            // name used in listings and "View next" (which keep `title`).
+            pageTitle: z.string().optional(),
             description: z.string().optional(),
             publishDate: z.coerce.date(),
             isFeatured: z.boolean().default(false),
