@@ -1,5 +1,5 @@
 ---
-import { ClientRouter } from 'astro:transitions';
+import { ClientRouter, fade } from 'astro:transitions';
 import BaseHead, { type Props as HeadProps } from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
@@ -17,10 +17,17 @@ const { showHeader = true, noindex = false, background, ...head } = Astro.props;
 // The 880px content block of the 2026-11 layout, shared by every page. Inner
 // indents (20px headings, 40px text) live in global.css: .indent-text, .flow.
 const columnClass = 'max-w-[880px]';
+// Page-to-page navigation (ClientRouter): a 0.5s crossfade of the whole page
+// (Victor, 2026-11-05: first 0.3s, then 0.5s; was the browser default,
+// ~0.25s), set on <html> below.
+// Old and new pages fade at the same time with plus-lighter blending, so
+// whatever is identical on both (header, background) stays steady. Reduced
+// motion turns it off.
+const pageTransition = fade({ duration: '0.5s' });
 ---
 
 <!doctype html>
-<html lang="en" class="wrap-break-words antialiased">
+<html lang="en" class="wrap-break-words antialiased" transition:animate={pageTransition}>
     <head>
         <BaseHead {...head} />
         {noindex && <meta name="robots" content="noindex, nofollow" />}
