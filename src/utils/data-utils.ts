@@ -10,11 +10,14 @@ export function sortItemsByDateDesc(
 
 // Reading order of the Leadership section, shared by the section index at the
 // top of every Leadership page and the "Read next" link at the bottom. Pinned
-// rather than date-sorted: the overview opens the section, design-with-ai
-// states the general problem and the enable-and-constrain formula, shared-loop
-// is the concrete operating model built on it, agentic looks outward at the
-// product level. Entries not listed here sort after the pinned ones, date-desc.
-const LEADERSHIP_ORDER = ['overview', 'design-with-ai', 'shared-loop', 'agentic'];
+// rather than date-sorted. Shared-loop leads (Victor, 2026-11-05) and is the
+// section's default article: /leadership/ redirects to it, and the header,
+// footer and home links point straight at it (astro.config.mjs redirects,
+// public/_redirects, site-config.ts - change all of them together). Then the
+// overview, design-with-ai (the general problem and the enable-and-constrain
+// formula), and agentic, which looks outward at the product level. Entries not
+// listed here sort after the pinned ones, date-desc.
+const LEADERSHIP_ORDER = ['shared-loop', 'overview', 'design-with-ai', 'agentic'];
 
 export function sortLeadershipSeries(entries: CollectionEntry<'leadership'>[]) {
     const rank = (id: string) => {
@@ -35,9 +38,9 @@ export function getLeadershipNav(entries: CollectionEntry<'leadership'>[], curre
     return { series, next };
 }
 
-// The overview is served by leadership/index.astro, everything else by [id].astro.
+// Every article, the overview included, is served by leadership/[id].astro.
 export function leadershipHref(id: string) {
-    return id === 'overview' ? '/leadership/' : `/leadership/${id}/`;
+    return `/leadership/${id}/`;
 }
 
 export function getAllTags(posts: CollectionEntry<'blog'>[]) {

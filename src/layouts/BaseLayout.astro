@@ -8,6 +8,9 @@ import Nav from '../components/Nav.astro';
 export type Props = HeadProps & { showHeader?: boolean; noindex?: boolean };
 
 const { showHeader = true, noindex = false, ...head } = Astro.props;
+// The 880px content block of the 2026-11 layout, shared by every page. Inner
+// indents (20px headings, 40px text) live in global.css: .indent-text, .flow.
+const columnClass = 'max-w-[880px]';
 ---
 
 <!doctype html>
@@ -24,13 +27,15 @@ const { showHeader = true, noindex = false, ...head } = Astro.props;
         <script is:inline src="/theme-toggle.js"></script>
     </head>
     <body class="bg-main text-main">
-        <div class="flex min-h-screen flex-col px-4 md:px-8">
+        <div class="flex min-h-screen flex-col">
             <Nav />
-            {showHeader && <Header />}
-            <main class="mx-auto w-full max-w-3xl grow">
-                <slot />
-            </main>
-            <Footer />
+            <div class="flex grow flex-col px-6 pt-8 sm:px-8 md:pt-14">
+                {showHeader && <Header class={columnClass} />}
+                <main class:list={['mx-auto w-full grow', columnClass]}>
+                    <slot />
+                </main>
+                <Footer class={columnClass} />
+            </div>
         </div>
     </body>
 </html>

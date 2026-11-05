@@ -1,9 +1,12 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 
-type Props = HTMLAttributes<'a'>;
+type Props = HTMLAttributes<'a'> & {
+    /** Classes for the current-page state. Bold everywhere (header, footer) - see .bold-reserve in global.css. */
+    activeClass?: string;
+};
 
-const { href, class: className, ...props } = Astro.props;
+const { href, class: className, activeClass = 'font-bold', ...props } = Astro.props;
 
 const { pathname } = Astro.url;
 const isActive = href === pathname || href === pathname.replace(/\/$/, '');
@@ -11,7 +14,7 @@ const isActive = href === pathname || href === pathname.replace(/\/$/, '');
 
 {
     isActive ? (
-        <span class:list={[className, 'underline decoration-1 underline-offset-2']} aria-current="page">
+        <span class:list={[className, activeClass]} aria-current="page">
             <slot />
         </span>
     ) : (

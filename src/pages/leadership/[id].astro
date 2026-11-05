@@ -7,13 +7,13 @@ import { getLeadershipNav } from '../../utils/data-utils';
 
 export async function getStaticPaths() {
     const allEntries = await getCollection('leadership');
-    // `overview` is served by index.astro at /leadership/, so it's excluded here.
-    return allEntries
-        .filter((entry) => entry.id !== 'overview')
-        .map((entry) => ({
-            params: { id: entry.id },
-            props: { entry, ...getLeadershipNav(allEntries, entry.id) }
-        }));
+    // Every article, the overview included, lives at /leadership/<id>/. The
+    // section URL /leadership/ is a redirect to the default article (see
+    // astro.config.mjs and public/_redirects).
+    return allEntries.map((entry) => ({
+        params: { id: entry.id },
+        props: { entry, ...getLeadershipNav(allEntries, entry.id) }
+    }));
 }
 
 type Props = {
@@ -35,15 +35,22 @@ const { Content } = await render(entry);
     showHeader={false}
     noindex={draft}
 >
-    <LeadershipIndex series={series} currentId={entry.id} class="mb-10 sm:mb-16" />
-    <article class="mb-16 sm:mb-24">
-        <header class="mb-8">
-            <h1 class="font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{title}</h1>
-            {subtitle && <p class="mt-3 font-serif text-xl leading-snug opacity-75 sm:text-2xl">{subtitle}</p>}
+    <LeadershipIndex series={series} currentId={entry.id} class="indent-text mb-10 sm:mb-16" />
+    <article class="mb-12 md:mb-15">
+        <header class="indent-heading mb-8 md:mb-10">
+            <h1 class="page-title">{title}</h1>
+            {subtitle && <p class="mt-2 text-xl leading-snug opacity-75 md:text-2xl">{subtitle}</p>}
         </header>
-        <div class="prose sm:prose-lg max-w-none">
+        <div class="prose sm:prose-lg flow max-w-none">
             <Content />
         </div>
     </article>
-    {next && <LeadershipReadNext entry={next} class="mb-16 sm:mb-24" />}
+    {
+        next && (
+            <>
+                <hr class="rule" />
+                <LeadershipReadNext entry={next} class="indent-text mt-12 mb-16 sm:mb-24 md:mt-15" />
+            </>
+        )
+    }
 </BaseLayout>

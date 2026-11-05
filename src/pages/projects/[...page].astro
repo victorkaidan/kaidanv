@@ -19,10 +19,12 @@ const portfolio = page.data;
 ---
 
 <BaseLayout title="Selected projects" description="Selected case studies by Victor Kaidan, from AI-native product direction to earlier hands-on design work." showHeader={false}>
-    <h1 class="mb-4 font-serif text-2xl leading-tight sm:mb-6 sm:text-4xl">Selected projects</h1>
-    <div class="prose sm:prose-lg mb-12 max-w-none sm:mb-16">
-        <p>A selection of case studies, from recent product direction to earlier hands-on design work. Much of my recent leadership work isn't public - happy to walk through it on request.</p>
+    <h1 class="page-title indent-heading mb-6 md:mb-10">Selected projects</h1>
+    <div class="indent-text">
+        <div class="prose sm:prose-lg mb-12 max-w-none sm:mb-16">
+            <p>A selection of product direction and hands-on case studies</p>
+        </div>
+        {portfolio.map((project) => <ProjectPreview project={project} class="mb-10 sm:mb-12" />)}
+        <Pagination page={page} class="my-16 sm:my-24" />
     </div>
-    {portfolio.map((project) => <ProjectPreview project={project} class="mb-10 sm:mb-12" />)}
-    <Pagination page={page} class="my-16 sm:my-24" />
 </BaseLayout>

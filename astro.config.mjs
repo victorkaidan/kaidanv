@@ -33,6 +33,14 @@ const draftPaths = new Set([
 // https://astro.build/config
 export default defineConfig({
     site: siteConfig.website,
+    // The Thoughts & methods section opens on its default article, The Shared
+    // Loop (Victor, 2026-11-05). 302, not 301: the default may change, and a
+    // permanent redirect would stay cached in returning visitors' browsers.
+    // In production Cloudflare answers from public/_redirects; this entry
+    // covers `npm run dev` and leaves a meta-refresh page in the build.
+    redirects: {
+        '/leadership': { status: 302, destination: '/leadership/shared-loop/' }
+    },
     vite: {
         plugins: [tailwindcss()]
     },

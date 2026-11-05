@@ -11,7 +11,10 @@ export type Link = {
 };
 
 export type Hero = {
+    /** A "\n" marks where the line breaks on desktop; phones wrap naturally. */
     title?: string;
+    /** Short intro paragraph between the title and the action buttons. */
+    lead?: string;
     text?: string;
     image?: ImageInput;
     actions?: Link[];

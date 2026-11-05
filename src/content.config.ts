@@ -51,6 +51,12 @@ const projects = defineCollection({
             // name used in listings and "View next" (which keep `title`).
             pageTitle: z.string().optional(),
             description: z.string().optional(),
+            // Optional lines for the hover rail of the project index at the top
+            // of every case study: `navSubtitle` (short, e.g. the year) above
+            // `navDescription` (2-3 lines on what the project is and how it
+            // ended). The rail falls back to `description` without them.
+            navSubtitle: z.string().optional(),
+            navDescription: z.string().optional(),
             publishDate: z.coerce.date(),
             isFeatured: z.boolean().default(false),
             // When true, the page still builds at /projects/<slug>/ so the direct

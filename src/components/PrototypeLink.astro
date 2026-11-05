@@ -1,10 +1,13 @@
 ---
-// Call-to-action for case studies that come with a live prototype.
-// Centered, larger than the standard Button, with generous vertical space so
-// it reads as the page's primary action. Opens in a new tab so the case study
-// stays where the reader left it. `data-astro-reload` keeps Astro's
-// ClientRouter from intercepting the click when the prototype is served from
-// the same domain (e.g. /prototypes/...).
+// Call-to-action for case studies that come with a live prototype. Same pill
+// as the home page buttons (Button.astro: 240x48, hairline border, accent
+// hover), centered on the page with an optional note under it. The arrow
+// says it opens in a new tab, so the case study stays where the reader left
+// it. `data-astro-reload` keeps Astro's ClientRouter from intercepting the
+// click when the prototype is served from the same domain
+// (e.g. /projects/.../saini/).
+import Button from './Button.astro';
+
 type Props = {
     href: string;
     label?: string;
@@ -16,18 +19,12 @@ const { href, label = 'Open the prototype', note, class: className } = Astro.pro
 ---
 
 <div class:list={['not-prose my-12 flex flex-col items-center gap-3 text-center sm:my-16', className]}>
-    <a
-        href={href}
-        target="_blank"
-        rel="noopener"
-        data-astro-reload
-        class="text-main border-main hover:bg-muted inline-flex items-center justify-center gap-3 rounded-full border-2 bg-transparent px-10 py-4 text-lg leading-tight font-medium whitespace-nowrap no-underline! transition-colors sm:px-12 sm:text-xl"
-    >
+    <Button href={href} target="_blank" rel="noopener" data-astro-reload class="w-full gap-2 sm:w-60">
         {label}
-        <svg aria-hidden="true" viewBox="0 0 16 16" class="h-4 w-4 fill-none stroke-current sm:h-5 sm:w-5" stroke-width="1.5">
+        <svg aria-hidden="true" viewBox="0 0 16 16" class="h-4 w-4 shrink-0 fill-none stroke-current" stroke-width="1.5">
             <path d="M5 11 11 5M6 5h5v5" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
         <span class="sr-only">(opens in a new tab)</span>
-    </a>
+    </Button>
     {note && <p class="max-w-md text-sm leading-snug opacity-60">{note}</p>}
 </div>

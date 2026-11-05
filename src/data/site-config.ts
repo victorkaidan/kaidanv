@@ -16,12 +16,12 @@ const siteConfig: SiteConfig = {
     },
     headerNavLinks: [
         { text: 'About', href: '/' },
-        { text: 'Leadership', href: '/leadership' },
+        { text: 'Thoughts & methods', href: '/leadership/shared-loop' },
         { text: 'Selected projects', href: '/projects' }
     ],
     footerNavLinks: [
         { text: 'About', href: '/' },
-        { text: 'Leadership', href: '/leadership' },
+        { text: 'Thoughts & methods', href: '/leadership/shared-loop' },
         { text: 'Selected projects', href: '/projects' }
     ],
     socialLinks: [
@@ -29,16 +29,21 @@ const siteConfig: SiteConfig = {
         { text: 'CV', href: '/cv/victor_kaidan_cv.pdf' }
     ],
     hero: {
-        title: 'Building Products and Design Teams for the AI Era',
+        title: 'Building Products and\nDesign Teams for the AI Era',
+        lead: 'Product and design leader turning complex products into ones people can adopt without expert help, and building the teams that do it repeatably, in shorter cycles.',
+        actions: [
+            { text: 'View selected projects', href: '/projects/' },
+            { text: 'Read thoughts & methods', href: '/leadership/shared-loop/' }
+        ],
         text: `## Who I am
 
-Hi, I'm Victor. For about twenty years, I've been developing products and leading design teams in enterprise SaaS and consumer tech. Most recently, that meant forming the design function for a complex B2B analytics platform: owning UX strategy, budget, and the operating model, reporting to the CPTO, and shaping product strategy as part of the steering committee.
+Hi, I'm Victor. I specialize in data-rich systems and AI products, with experience across enterprise SaaS, and consumer tech. I bring a platform's disparate capabilities together into cohesive workflows and make AI a trusted part of them.
 
-I embrace a scientific approach and systems thinking: perhaps due to my background in the life sciences, it has always been important to me to understand how the system works as a whole, beyond my immediate area of responsibility. Throughout my career, this has led me to study behavioral psychology, programming, software architecture, and machine learning. The ability to understand and think through code has transformed my way of working with engineers and designing complex systems. That same curiosity has led me through the fields of product management, growth marketing, and conversion optimization, each of which has shaped how I design solutions and manage processes. All of this together has given me the habit of approaching tasks through a business lens - I evaluate every decision in the context of the entire system: considering user interests along with the teams and processes it affects and how it contributes to the company's success.
+I approach products as systems, with a scientific mindset. Throughout my career, this has led me to study behavioral psychology, programming, software architecture, and machine learning. The ability to understand and think through code has transformed my way of working with engineers and designing complex systems. That same curiosity has led me through the fields of product management, growth marketing, and conversion optimization, each of which has shaped how I design solutions and manage processes. All of this together has given me the habit of approaching tasks through a business lens - I evaluate every decision in the context of the entire system: considering user interests along with the teams and processes it affects and how it contributes to the company's success.
 
 ## Leading teams
 
-A design team's value depends on the conditions in which it operates: from empowering management, clear strategy, and room to grow to the way it collaborates with the product and engineering teams and the role it plays in roadmap planning. Once that's in place, quality becomes repeatable. Those conditions are where I focus most of my effort. For me, this involved hiring and developing designers, and evolving the multicultural team through reorganizations while creating and maintaining a productive working atmosphere and people's motivation.
+A design team's value depends on the conditions in which it operates: from empowering management, clear strategy, and room to grow to the way it collaborates with the product and engineering teams and the role it plays in roadmap planning. Once that's in place, quality becomes repeatable and no longer depends on a few strong individuals. Those conditions are where I focus most of my effort: hiring and developing designers, and keeping a multicultural team productive and motivated through company growth and reorganizations.
 
 ## Product direction
 

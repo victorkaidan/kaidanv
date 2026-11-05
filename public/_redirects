@@ -14,6 +14,12 @@
 # WordPress media paths → new uploads location
 /wp-content/uploads/*     /uploads/:splat    301
 
+# Thoughts & methods section -> its default article, The Shared Loop
+# (2026-11-05). 302 on purpose: the default article may change. The overview
+# that used to live here is now at /leadership/overview/.
+/leadership/              /leadership/shared-loop/   302
+/leadership               /leadership/shared-loop/   302
+
 # Old WordPress about page (now home — Dante structure)
 /about/                   /                  301
 /about                    /                  301

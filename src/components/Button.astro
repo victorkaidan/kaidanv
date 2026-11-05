@@ -7,8 +7,10 @@ type ButtonProps = HTMLAttributes<'button'> & { href?: never };
 type Props = ButtonProps | AnchorProps;
 
 const { href, class: className, ...rest } = Astro.props;
+// Pill from the 2026-11 Figma: 48px tall, 16px text, hairline border at 50% of the text color.
+// Hover: text and border fade to the accent red, like every link (Victor, 2026-11-05).
 const buttonClasses =
-    'inline-flex items-center justify-center px-6 py-2 leading-tight text-main bg-transparent border border-main rounded-full transition-colors hover:bg-muted';
+    'inline-flex h-12 items-center justify-center whitespace-nowrap rounded-full border border-[color-mix(in_srgb,var(--text-main)_50%,transparent)] bg-transparent px-6 text-base leading-none text-main transition-colors duration-250 hover:border-accent hover:text-accent focus-visible:border-accent focus-visible:text-accent';
 ---
 
 {

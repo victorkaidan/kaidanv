@@ -4,29 +4,47 @@ import Button from '../components/Button.astro';
 import siteConfig from '../data/site-config';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const heroTitle = siteConfig.hero?.title;
+const heroTitleLines = (siteConfig.hero?.title ?? '').split('\n');
+const heroLead = siteConfig.hero?.lead;
 const heroText = siteConfig.hero?.text;
 const heroActions = siteConfig.hero?.actions ?? [];
 ---
 
+<!--
+    Home page from the Figma "Victor Kaidan — About" frame (2026-11), on the
+    shared page grid (global.css: .indent-heading, .indent-text, .flow). The
+    profile block and the rule under the buttons span the 880px block; the
+    title, the button row and section headings sit at 20px; intro and body
+    text at 40px. Desktop gaps: title 40 intro 100 buttons 60 rule 60 "Who I am".
+-->
 <BaseLayout description={siteConfig.description}>
-    <section class="mb-16 flex w-full flex-col gap-8 sm:mb-24">
+    <section class="mb-16 w-full sm:mb-24">
         {
-            heroTitle && (
-                <h1 class="font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{heroTitle}</h1>
+            heroTitleLines[0] && (
+                <h1 class="indent-heading text-[34px] leading-[1.25] font-medium text-balance sm:text-[48px] sm:leading-[70px]">
+                    {heroTitleLines.map((line, i) => (
+                        <>
+                            {i > 0 && ' '}
+                            {i > 0 && <br class="max-md:hidden" />}
+                            {line}
+                        </>
+                    ))}
+                </h1>
             )
         }
-        <div class="prose sm:prose-lg max-w-none">
-            {heroText && <Fragment set:html={markdown.parse(heroText)} />}
-        </div>
+        {heroLead && <p class="indent-text mt-6 text-lg leading-8 md:mt-10">{heroLead}</p>}
         {
             heroActions.length > 0 && (
-                <div class="flex flex-wrap gap-4">
+                <div class="indent-heading mt-10 flex flex-col gap-4 sm:flex-row sm:gap-6 md:mt-25">
                     {heroActions.map((action) => (
-                        <Button href={action.href}>{action.text}</Button>
+                        <Button href={action.href} target={action.target} class="w-full sm:w-60">
+                            {action.text}
+                        </Button>
                     ))}
                 </div>
             )
         }
+        <hr class="rule mt-10 md:mt-15" />
+        {heroText && <div class="prose prose-lg flow mt-10 max-w-none md:mt-15" set:html={markdown.parse(heroText)} />}
     </section>
 </BaseLayout>

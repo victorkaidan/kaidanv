@@ -1,6 +1,9 @@
+/* Manrope is the one typeface of the site (headings, text, UI) since the
+   2026-11 redesign. Inter stays loaded only for the inline SVG diagrams
+   (Figure*.astro): their boxes were measured against Inter's widths, and
+   the browser downloads it only on pages that actually use it. */
+@import '@fontsource-variable/manrope' layer(base);
 @import '@fontsource-variable/inter' layer(base);
-@import '@fontsource-variable/newsreader' layer(base);
-@import '@fontsource-variable/newsreader/wght-italic.css' layer(base);
 
 /* medium-zoom ships its CSS via a runtime <style> injection (styleInject)
    that gets wiped when Astro's ClientRouter swaps <head> on SPA navigation
@@ -19,12 +22,20 @@
     --bg-main: #f2f1ec;
     --bg-muted: #eae9e1;
     --border-main: #171717;
+    /* Hairline dividers: every rule on the site (home rule, article <hr>,
+       Leadership-index rule, footer rule). */
+    --border-subtle: #d9d9d9;
+    /* Link hover colour (Victor, 2026-11-05). Dark mode uses a lighter red,
+       since #870000 on the dark background is barely legible. */
+    --accent: #870000;
 }
 html.dark {
     --text-main: #f2f1ec;
     --bg-main: #171717;
     --bg-muted: #242424;
     --border-main: #f2f1ec;
+    --border-subtle: #363633;
+    --accent: #f28b82;
 }
 
 /* Cyan */
@@ -60,12 +71,33 @@ html.dark {
 */
 
 @theme inline {
-    --font-sans: 'Inter Variable', sans-serif;
-    --font-serif: 'Newsreader Variable', serif;
+    --font-sans: 'Manrope Variable', sans-serif;
     --text-color-main: var(--text-main);
     --background-color-main: var(--bg-main);
     --background-color-muted: var(--bg-muted);
     --border-color-main: var(--border-main);
+    --border-color-subtle: var(--border-subtle);
+    --background-color-subtle: var(--border-subtle);
+    --text-color-accent: var(--accent);
+    --border-color-accent: var(--accent);
+}
+
+/* The header is sticky: in-page anchors (footnotes, #sections) must land
+   below it, not under it. Header height + a little air. */
+html {
+    scroll-padding-top: 5rem;
+}
+@media (min-width: 768px) {
+    html {
+        scroll-padding-top: 6.5rem;
+    }
+}
+
+/* medium-zoom's overlay has no z-index of its own, so without this the
+   sticky header (z-40) would sit on top of a zoomed image. */
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
+    z-index: 100;
 }
 
 @layer utilities {
@@ -87,15 +119,70 @@ html.dark {
         --tw-prose-td-borders: var(--border-color-main);
     }
 
-    .prose a {
-        @apply underline font-normal decoration-1 underline-offset-2 decoration-dashed hover:decoration-solid;
+    /* One link hover for the whole site (Victor, 2026-11-05): the text fades
+       to the accent colour. No underline on hover anywhere.
+       - `.link-accent` on a plain text link (nav, footer, inline links);
+       - `.link-accent-group` on the title inside a card link (`a.group`:
+         project and article previews, Leadership index entries), so the
+         whole card is the hit area but only the title changes colour.
+       Buttons (pills, icon buttons) keep their own hover. */
+    .link-accent,
+    .link-accent-group {
+        transition:
+            color 250ms ease,
+            text-decoration-color 250ms ease;
+    }
+    .link-accent:hover,
+    .link-accent:focus-visible,
+    .group:hover .link-accent-group,
+    .group:focus-visible .link-accent-group {
+        color: var(--accent);
     }
 
-    /* Serif is for headings only, and only the ones that read as headings:
-       h1-h3. h4-h6 are small labels in the case studies (image captions,
-       "Old design:") and stay in the sans text voice. */
-    .prose :where(h1, h2, h3) {
-        @apply font-serif font-medium;
+    /* Links inside running text keep a dashed underline at rest - without
+       it they can't be told apart from the text - and take the same colour
+       hover. Pills inside prose (PrototypeLink, .not-prose) are excluded. */
+    .prose a:not(:where(.not-prose *)) {
+        @apply underline font-normal decoration-1 underline-offset-2 decoration-dashed;
+        transition:
+            color 250ms ease,
+            text-decoration-color 250ms ease;
+    }
+    .prose a:not(:where(.not-prose *)):hover,
+    .prose a:not(:where(.not-prose *)):focus-visible {
+        color: var(--accent);
+    }
+
+    /* The current item of a menu is set in bold (header, footer, Leadership
+       index). `.bold-reserve` keeps the bold width reserved for every label,
+       so a row or column doesn't shift when the bold item changes. Needs
+       data-label = the label text. */
+    .bold-reserve {
+        display: inline-flex;
+        flex-direction: column;
+    }
+    .bold-reserve::after {
+        content: attr(data-label);
+        height: 0;
+        overflow: hidden;
+        visibility: hidden;
+        font-weight: 700;
+        user-select: none;
+        pointer-events: none;
+    }
+
+    /* One typeface (Manrope) since the 2026-11 redesign: headings differ
+       from text by weight and size only. h1-h2 read as headings; h3 is a
+       sub-section / process-step title, 1.25em semibold (Victor,
+       2026-11-05); h4-h6 are small labels in the case studies (image
+       captions, "Old design:"). The h3 selector is deliberately stronger
+       than the typography plugin's so its prose-lg size doesn't win. */
+    .prose :where(h1, h2) {
+        @apply font-medium;
+    }
+    .prose h3:not(:where(.not-prose *)) {
+        font-size: 1.25em;
+        font-weight: 600;
     }
     .prose :where(h4, h5, h6) {
         @apply font-semibold;
@@ -105,8 +192,62 @@ html.dark {
         @apply font-medium;
     }
 
+    /* Page grid (Figma "Victor Kaidan — About", 2026-11), used on every page.
+       The content block is 880px (see BaseLayout). Inside it:
+       - edge (0):      profile block, rules (<hr>, dashed index/footer rules)
+       - indent 20px:   headings - page title (h1) and its subtitle, section
+                        headings (h2 of the article flow) - and the home
+                        page's button row
+       - indent 40px:   body text, lists, media, cards (800px measure)
+       Indents start at md; on phones everything runs edge to edge.
+       `.indent-heading` / `.indent-text` are for single blocks; `.flow` is
+       for an article body: it indents its children to 40px and pulls h2 and
+       hr back out to 20px and 0.
+       Vertical rhythm: 40px from a title to the text under it, 60px above
+       and below a rule and above a section heading, 24px from a section
+       heading to its text. */
+    .page-title {
+        @apply text-[30px] leading-[38px] font-medium md:text-[40px] md:leading-[52px];
+    }
+
+    /* A standalone rule on the edge of the 880 block: under the home page
+       buttons, and between an article / case study and its Read next /
+       View next block. Same line as `.flow > hr`. */
+    .rule {
+        height: 1px;
+        border: 0;
+        background-color: var(--border-subtle);
+    }
+
+    .flow > h2 {
+        @apply mt-12 mb-6 text-2xl leading-8 font-normal md:mt-15 md:text-[28px] md:leading-10;
+    }
+    .flow > h2:first-child {
+        @apply mt-0;
+    }
+    .flow > hr {
+        @apply my-12 h-px border-0 md:my-15;
+        background-color: var(--border-subtle);
+    }
+
+    @media (min-width: 768px) {
+        .indent-heading {
+            padding-inline: 1.25rem;
+        }
+        .indent-text,
+        .flow {
+            padding-inline: 2.5rem;
+        }
+        .flow > h2 {
+            margin-inline: -1.25rem;
+        }
+        .flow > hr {
+            margin-inline: -2.5rem;
+        }
+    }
+
     .prose blockquote {
-        @apply font-serif font-normal italic border-none pl-0 text-[1.375em] leading-snug sm:text-[1.66667em];
+        @apply font-normal italic border-none pl-0 text-[1.375em] leading-snug sm:text-[1.66667em];
     }
 
     /* Step-number headings inside case studies (01, 02, 03, ...).

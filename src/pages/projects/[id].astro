@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
+import ProjectIndex from '../../components/ProjectIndex.astro';
 import ProjectPreview from '../../components/ProjectPreview.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { sortItemsByDateDesc } from '../../utils/data-utils';
@@ -16,6 +17,9 @@ export async function getStaticPaths() {
             params: { id: project.id },
             props: {
                 project,
+                // Section index at the top: the public list, plus the page
+                // itself when it is a draft (same rule as Leadership).
+                indexProjects: allProjects.filter((p) => !p.data.draft || p.id === project.id),
                 prevProject: isInNav && navIndex + 1 !== navProjects.length ? navProjects[navIndex + 1] : null,
                 nextProject: isInNav && navIndex !== 0 ? navProjects[navIndex - 1] : null
             }
@@ -25,11 +29,12 @@ export async function getStaticPaths() {
 
 type Props = {
     project: CollectionEntry<'projects'>;
+    indexProjects: CollectionEntry<'projects'>[];
     prevProject: CollectionEntry<'projects'>;
     nextProject: CollectionEntry<'projects'>;
 };
 
-const { project, prevProject, nextProject } = Astro.props;
+const { project, indexProjects, prevProject, nextProject } = Astro.props;
 const { title, pageTitle, description, seo, draft } = project.data;
 const { Content } = await render(project);
 ---
@@ -42,21 +47,25 @@ const { Content } = await render(project);
     showHeader={false}
     noindex={draft}
 >
-    <article class="mb-16 sm:mb-24">
-        <header class="mb-8">
-            <h1 class="font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{pageTitle ?? title}</h1>
+    <ProjectIndex projects={indexProjects} currentId={project.id} class="indent-text mb-10 sm:mb-16" />
+    <article class="mb-12 md:mb-15">
+        <header class="indent-heading mb-8 md:mb-10">
+            <h1 class="page-title">{pageTitle ?? title}</h1>
         </header>
-        <div class="prose sm:prose-lg max-w-none">
+        <div class="prose sm:prose-lg flow max-w-none">
             <Content />
         </div>
     </article>
     {
         (prevProject || nextProject) && (
-            <div class="my-16 sm:my-24">
-                <h2 class="mb-4 text-sm font-medium opacity-60 sm:mb-6">View next</h2>
-                {nextProject && <ProjectPreview project={nextProject} class="mb-10 sm:mb-12" headingLevel="h3" />}
-                {prevProject && <ProjectPreview project={prevProject} class="mb-10 sm:mb-12" headingLevel="h3" />}
-            </div>
+            <>
+                <hr class="rule" />
+                <div class="indent-text mt-12 mb-16 sm:mb-24 md:mt-15">
+                    <h2 class="mb-4 text-sm font-medium opacity-60 sm:mb-6">View next</h2>
+                    {nextProject && <ProjectPreview project={nextProject} class="mb-10 sm:mb-12" headingLevel="h3" />}
+                    {prevProject && <ProjectPreview project={prevProject} class="mb-10 sm:mb-12" headingLevel="h3" />}
+                </div>
+            </>
         )
     }
 </BaseLayout>
