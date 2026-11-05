@@ -64,7 +64,12 @@ function formatCanonicalURL(url: string | URL) {
 <link rel="preload" as="font" type="font/woff2" href={manropeWoff2} crossorigin="anonymous" />
 
 <!-- Low Priority Global Metadata -->
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<!-- Favicons from Victor's "icon-logo.png" (VK monogram, 2026-11-05): ICO with
+     16/32/48 for tabs, 96px PNG for search results and shortcuts, 180px for
+     iOS home screens. Replaced Dante's default SVG favicon (the Astro logo). -->
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" type="image/png" href="/favicon-96.png" sizes="96x96" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS" />
 

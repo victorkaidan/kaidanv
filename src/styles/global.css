@@ -28,6 +28,10 @@
     /* Link hover colour (Victor, 2026-11-05). Dark mode uses a lighter red,
        since #870000 on the dark background is barely legible. */
     --accent: #870000;
+    /* Tesseract page background: figure edges and corner dots (Victor's
+       original colours). The nautilus ink is its own artwork. */
+    --bg-art-edge: #d5d3c7;
+    --bg-art-dot: #aba79c;
 }
 html.dark {
     --text-main: #f2f1ec;
@@ -36,6 +40,10 @@ html.dark {
     --border-main: #f2f1ec;
     --border-subtle: #363633;
     --accent: #f28b82;
+    /* Mirrors the light pair: as far above the dark background as the
+       originals sit below the light one. */
+    --bg-art-edge: #3a3935;
+    --bg-art-dot: #66635b;
 }
 
 /* Cyan */
@@ -125,15 +133,17 @@ html {
        - `.link-accent-group` on the title inside a card link (`a.group`:
          project and article previews, Leadership index entries), so the
          whole card is the hit area but only the title changes colour.
-       Buttons (pills, icon buttons) keep their own hover. */
+       Buttons (pills, icon buttons) keep their own hover. The current item
+       of a menu (aria-current, rendered as a span) is not a link and stays
+       in the text colour on hover (Victor, 2026-11-05). */
     .link-accent,
     .link-accent-group {
         transition:
             color 250ms ease,
             text-decoration-color 250ms ease;
     }
-    .link-accent:hover,
-    .link-accent:focus-visible,
+    .link-accent:not([aria-current]):hover,
+    .link-accent:not([aria-current]):focus-visible,
     .group:hover .link-accent-group,
     .group:focus-visible .link-accent-group {
         color: var(--accent);

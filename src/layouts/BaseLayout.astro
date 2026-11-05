@@ -4,10 +4,16 @@ import BaseHead, { type Props as HeadProps } from '../components/BaseHead.astro'
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import Nav from '../components/Nav.astro';
+import PageBackground from '../components/PageBackground.astro';
 
-export type Props = HeadProps & { showHeader?: boolean; noindex?: boolean };
+export type Props = HeadProps & {
+    showHeader?: boolean;
+    noindex?: boolean;
+    /** Interactive page background, see PageBackground.astro. */
+    background?: 'nautilus' | 'tesseract';
+};
 
-const { showHeader = true, noindex = false, ...head } = Astro.props;
+const { showHeader = true, noindex = false, background, ...head } = Astro.props;
 // The 880px content block of the 2026-11 layout, shared by every page. Inner
 // indents (20px headings, 40px text) live in global.css: .indent-text, .flow.
 const columnClass = 'max-w-[880px]';
@@ -27,6 +33,7 @@ const columnClass = 'max-w-[880px]';
         <script is:inline src="/theme-toggle.js"></script>
     </head>
     <body class="bg-main text-main">
+        <PageBackground variant={background} />
         <div class="flex min-h-screen flex-col">
             <Nav />
             <div class="flex grow flex-col px-6 pt-8 sm:px-8 md:pt-14">

@@ -3,7 +3,8 @@
 ---
 
 <!-- 32px hit area around a 16px dot; -mx-2 keeps the dot itself on the header's padding line and 40px from the last link. -->
-<button id="theme-toggle" class="-mx-2 flex h-8 w-8 cursor-pointer items-center justify-center transition-colors duration-250 hover:text-accent focus-visible:text-accent" aria-label="Change color scheme">
+<!-- No accent hover here (Victor, 2026-11-05): the dot stays in the text colour. -->
+<button id="theme-toggle" class="-mx-2 flex h-8 w-8 cursor-pointer items-center justify-center" aria-label="Change color scheme">
     <svg class="h-4 w-4 fill-current" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
         <circle cx="8" cy="8" r="8"></circle>
     </svg>

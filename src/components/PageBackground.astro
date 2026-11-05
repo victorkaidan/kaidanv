@@ -1,0 +1,62 @@
+---
+// Interactive page background (Victor, 2026-11-05): a fixed full-viewport
+// canvas behind the content, transparent so the site background shows
+// through. `nautilus` on About and Thoughts & methods, `tesseract` on Selected
+// projects and the case studies; pages pick it via BaseLayout's `background`.
+// The code of each lives in src/scripts/backgrounds/ and is loaded only on
+// pages that use it. Rendered in BaseLayout on every page (the host only when
+// a variant is set), so the mount script below is always present and also
+// runs after ClientRouter navigation.
+type Props = { variant?: 'nautilus' | 'tesseract' };
+const { variant } = Astro.props;
+---
+
+{variant && <div class="page-bg" data-page-bg={variant} aria-hidden="true"></div>}
+
+<style>
+    /* Below every in-flow element, above the body background. */
+    .page-bg {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+    }
+</style>
+
+<script>
+    type Background = { destroy(): void };
+
+    let current: Background | null = null;
+    let generation = 0;
+
+    async function mount() {
+        const host = document.querySelector<HTMLElement>('[data-page-bg]');
+        if (!host || host.dataset.mounted) return;
+        host.dataset.mounted = 'true';
+        const mine = ++generation;
+        let bg: Background | null = null;
+        if (host.dataset.pageBg === 'nautilus') {
+            const { mountNautilusBackground } = await import('../scripts/backgrounds/nautilus.js');
+            bg = mountNautilusBackground(host);
+        } else if (host.dataset.pageBg === 'tesseract') {
+            const { mountTesseractBackground } = await import('../scripts/backgrounds/tesseract.js');
+            bg = mountTesseractBackground(host);
+        }
+        // Navigated away while the module was loading: drop it.
+        if (!bg || mine !== generation || !host.isConnected) {
+            bg?.destroy();
+            return;
+        }
+        current = bg;
+    }
+
+    function unmount() {
+        generation++;
+        current?.destroy();
+        current = null;
+    }
+
+    document.addEventListener('astro:before-swap', unmount);
+    document.addEventListener('astro:page-load', mount);
+    mount();
+</script>
