@@ -42,7 +42,15 @@ export default defineConfig({
         '/leadership': { status: 302, destination: '/leadership/shared-loop/' }
     },
     vite: {
-        plugins: [tailwindcss()]
+        plugins: [tailwindcss()],
+        // Dev server only: pre-bundle medium-zoom at startup. It is imported
+        // only by the case-study pages, so otherwise Vite discovers it mid-
+        // session, re-optimizes, and a page still holding the old hash gets
+        // "504 Outdated Optimize Dep" - click-to-zoom then silently stops
+        // working on localhost. Production builds are not affected.
+        optimizeDeps: {
+            include: ['medium-zoom']
+        }
     },
     integrations: [
         mdx(),

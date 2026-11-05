@@ -52,7 +52,7 @@ const projects = defineCollection({
             pageTitle: z.string().optional(),
             description: z.string().optional(),
             // Optional lines for the hover rail of the project index at the top
-            // of every case study: `navSubtitle` (short, e.g. the year) above
+            // of every case study: `navSubtitle` (short: the company the work was done at) above
             // `navDescription` (2-3 lines on what the project is and how it
             // ended). The rail falls back to `description` without them.
             navSubtitle: z.string().optional(),

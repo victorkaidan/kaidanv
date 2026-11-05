@@ -1,8 +1,11 @@
 ---
 // Interactive page background (Victor, 2026-11-05): a fixed full-viewport
 // canvas behind the content, transparent so the site background shows
-// through. `nautilus` on About and Thoughts & methods, `tesseract` on Selected
-// projects and the case studies; pages pick it via BaseLayout's `background`.
+// through. Pages pick it via BaseLayout's `background`.
+// Since 2026-11-05 every page with a background uses `nautilus` (About,
+// Thoughts & methods, Selected projects, case studies). `tesseract` is kept
+// working but unused: to bring it back on the projects pages, set
+// background="tesseract" in pages/projects/[id].astro and [...page].astro.
 // The code of each lives in src/scripts/backgrounds/ and is loaded only on
 // pages that use it. Rendered in BaseLayout on every page (the host only when
 // a variant is set), so the mount script below is always present and also
