@@ -57,6 +57,10 @@ const projects = defineCollection({
             // ended). The rail falls back to `description` without them.
             navSubtitle: z.string().optional(),
             navDescription: z.string().optional(),
+            // Optional card image on /projects/ and in "View next" (Victor,
+            // 2026-11-05). Without it the card falls back to seo.image, which
+            // stays the social preview either way.
+            thumbnail: z.object({ src: z.string(), alt: z.string().optional() }).optional(),
             publishDate: z.coerce.date(),
             isFeatured: z.boolean().default(false),
             // When true, the page still builds at /projects/<slug>/ so the direct

@@ -5,8 +5,10 @@ import ArrowRight from '../assets/icons/arrow-right.svg';
 type Props = { project: CollectionEntry<'projects'>; class?: string; headingLevel?: 'h2' | 'h3' };
 
 const { project, class: className, headingLevel = 'h2' } = Astro.props;
-const { title, description, seo } = project.data;
-const cover = seo?.image;
+const { title, description, seo, thumbnail } = project.data;
+// Card image: the dedicated `thumbnail` if the case has one, otherwise the
+// social preview image (seo.image).
+const cover = thumbnail ?? seo?.image;
 const coverSrc = typeof cover?.src === 'string' ? cover.src : null;
 const TitleTag = headingLevel;
 ---
